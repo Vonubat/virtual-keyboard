@@ -1,0 +1,27 @@
+{
+  "name": "virtual-keyboard",
+  "version": "1.0.0",
+  "description": "https://github.com/rolling-scopes-school/tasks/blob/master/tasks/virtual-keyboard/virtual-keyboard-en.md",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vonubat/virtual-keyboard.git"
+  },
+  "keywords": [
+    "js",
+    "sass",
+    "dom",
+    "css",
+    "eslint",
+    "es6"
+  ],
+  "author": "Tabunov Egor <vonubat@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vonubat/virtual-keyboard/issues"
+  },
+  "homepage": "https://github.com/Vonubat/virtual-keyboard#readme"
+}
