@@ -342,170 +342,139 @@ template {
   display: none;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-body {
+.centralizer {
+  margin: 0 auto;
   font-family: 'Roboto', sans-serif;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
 }
 
-body .container {
+.centralizer .title {
+  font-size: 30px;
+  font-weight: bold;
+  color: rgba(0, 110, 255, 0.8);
+  margin: 10px auto;
+  text-align: center;
+}
+
+.centralizer .textarea {
+  display: block;
+  width: 700px;
+  height: 200px;
+  margin: 10px auto 10px;
+  padding: 10px;
+  font-size: 18px;
+  color: #444444;
+}
+
+.centralizer .keyboard {
+  width: 704px;
+  margin: 0 auto;
+  padding: 5px;
+  padding-left: 0;
+  padding-bottom: 0;
+  background: #888888;
+  border: 3px solid #222222;
+  border-radius: 5px;
+}
+
+.centralizer .keyboard .row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  height: 100vh;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin: 0 10px;
-}
-
-body .container .keyboard-wrapp {
-  max-width: 1008px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   width: 100%;
-  background-color: #e7e7e7;
-  overflow: hidden;
-  position: relative;
-  -webkit-box-ordinal-group: 3;
-      -ms-flex-order: 2;
-          order: 2;
+  height: 40px;
+  margin-bottom: 8px;
 }
 
-body .container .keyboard-wrapp .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+.centralizer .keyboard .row .key {
+  width: 40px;
+  height: 40px;
+  margin-left: 6px;
+  font-weight: 500;
+  line-height: 40px;
+  text-align: center;
+  color: #ffffff;
+  background: #444444;
+  border-radius: 3px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: border-radius 0.3s, background-color 0.3s;
+  transition: border-radius 0.3s, background-color 0.3s;
 }
 
-body .container .keyboard-wrapp .row .keys {
-  width: 60px;
-  height: 60px;
-  background-color: #fff;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin: 4px;
-  -webkit-transform: 0.2s;
-          transform: 0.2s;
+.centralizer .keyboard .row .key .caseDown,
+.centralizer .keyboard .row .key .caseUp,
+.centralizer .keyboard .row .key .shiftCaps,
+.centralizer .keyboard .row .key .caps {
+  display: block;
+  width: 100;
+  min-height: 40px;
 }
 
-body .container .keyboard-wrapp .row .keys.active {
-  background-color: #333;
-  color: #fff;
+.centralizer .keyboard .row .key .hidden {
+  display: none;
 }
 
-body .container .keyboard-wrapp .row .keys.remove {
-  -webkit-animation: keys_animation 0.5s forwards;
-          animation: keys_animation 0.5s forwards;
+.centralizer .keyboard .row .key:hover {
+  background: #79aa89;
 }
 
-body .container .keyboard-wrapp .row .backspace_key {
-  width: 120px;
+.centralizer .keyboard .row .key.active {
+  background-color: #2cfd72;
+  border-radius: 50px;
 }
 
-body .container .keyboard-wrapp .row .tab_key {
-  width: 90px;
+.centralizer .keyboard .row .AltLeft,
+.centralizer .keyboard .row .AltRight,
+.centralizer .keyboard .row .ArrowUp,
+.centralizer .keyboard .row .ArrowLeft,
+.centralizer .keyboard .row .ArrowDown,
+.centralizer .keyboard .row .ArrowRight,
+.centralizer .keyboard .row .Backspace,
+.centralizer .keyboard .row .CapsLock,
+.centralizer .keyboard .row .ControlLeft,
+.centralizer .keyboard .row .ControlRight,
+.centralizer .keyboard .row .Delete,
+.centralizer .keyboard .row .Enter,
+.centralizer .keyboard .row .ShiftLeft,
+.centralizer .keyboard .row .ShiftRight,
+.centralizer .keyboard .row .Tab,
+.centralizer .keyboard .row .MetaLeft {
+  font-weight: 600;
+  background-color: #222222;
 }
 
-body .container .keyboard-wrapp .row .slash_key {
-  width: 90px;
+.centralizer .keyboard .row .Tab {
+  width: 50px;
 }
 
-body .container .keyboard-wrapp .row .caps_lock_key {
-  width: 128px;
+.centralizer .keyboard .row .Backspace,
+.centralizer .keyboard .row .CapsLock,
+.centralizer .keyboard .row .ShiftLeft {
+  width: 100px;
 }
 
-body .container .keyboard-wrapp .row .enter_key {
-  width: 120px;
+.centralizer .keyboard .row .Delete {
+  width: 44px;
 }
 
-body .container .keyboard-wrapp .row .shift_key {
-  width: 124px;
+.centralizer .keyboard .row .Enter,
+.centralizer .keyboard .row .ShiftRight {
+  width: 86px;
 }
 
-body .container .keyboard-wrapp .row .space_key {
-  max-width: 600px;
-  width: 100%;
+.centralizer .keyboard .row .Space {
+  width: 330px;
 }
 
-body .container .text {
-  max-width: 1008px;
-  width: 100%;
-  height: 90px;
-  margin-bottom: 30px;
-  border: none;
-  outline: none;
-  font-size: 26px;
-  background-color: #f7f7f7;
-  padding-left: 10px;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-}
-
-body.active {
-  background: #363636;
-}
-
-@-webkit-keyframes keys_animation {
-  0% {
-    background-color: #333;
-    color: #fff;
-  }
-  100% {
-    background-color: #fff;
-    color: #333;
-  }
-}
-
-@keyframes keys_animation {
-  0% {
-    background-color: #333;
-    color: #fff;
-  }
-  100% {
-    background-color: #fff;
-    color: #333;
-  }
-}
-
-@-webkit-keyframes keys_night_animation {
-  0% {
-    background-color: #fff;
-    color: #000;
-  }
-  100% {
-    background-color: #333;
-    color: #fff;
-  }
-}
-
-@keyframes keys_night_animation {
-  0% {
-    background-color: #fff;
-    color: #000;
-  }
-  100% {
-    background-color: #333;
-    color: #fff;
-  }
+.centralizer .description,
+.centralizer .language {
+  margin: 10px auto;
+  text-align: center;
 }
 /*# sourceMappingURL=styles.css.map */
