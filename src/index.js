@@ -44,7 +44,12 @@ let specialKeysStorage = {
 };
 
 let keysPressedStorage = new Set();
-let languageFlag = 1; // 1 — eng, 0 — rus
+
+let languageFlag = Number(
+  sessionStorage.length === 1 ? 1 : sessionStorage.getItem('languageFlag')
+);
+// 1 — eng, 0 — rus
+
 let capsLockFlag = 0; // 0 — turn off, 1- turn on
 
 /* count pressed keys */
@@ -125,13 +130,31 @@ function capsLockCheck(event) {
 window.addEventListener('keydown', capsLockCheck);
 
 /* switch language */
-function switchLanguage(event) {
+function switchLanguage() {
+  if (languageFlag === 1) {
+    for (const item of KEYS_RUS) {
+      item.classList.add('hidden');
+    }
+    for (const item of KEYS_ENG) {
+      item.classList.remove('hidden');
+    }
+  } else {
+    for (const item of KEYS_RUS) {
+      item.classList.remove('hidden');
+    }
+    for (const item of KEYS_ENG) {
+      item.classList.add('hidden');
+    }
+  }
+
   if (
     keysPressedStorage.has('Control(1)') &&
     keysPressedStorage.has('Alt(1)')
   ) {
     if (languageFlag === 1) {
+      sessionStorage.setItem('languageFlag', 0);
       languageFlag = 0;
+
       for (const item of KEYS_RUS) {
         item.classList.toggle('hidden');
       }
@@ -139,7 +162,9 @@ function switchLanguage(event) {
         item.classList.toggle('hidden');
       }
     } else {
+      sessionStorage.setItem('languageFlag', 1);
       languageFlag = 1;
+
       for (const item of KEYS_RUS) {
         item.classList.toggle('hidden');
       }
@@ -149,10 +174,12 @@ function switchLanguage(event) {
     }
   }
 
-  console.log(event);
+  // console.log(event);
   // console.log(languageFlag);
+  // console.log(sessionStorage);
 }
 
+switchLanguage(); // for check after loading/reloading page
 window.addEventListener('keydown', switchLanguage);
 
 /* visualization pressed keys */
