@@ -5,18 +5,18 @@ const CASE_DOWN = document.querySelectorAll('.caseDown');
 const CASE_UP = document.querySelectorAll('.caseUp');
 const CAPS = document.querySelectorAll('.caps');
 const SHIFT_CAPS = document.querySelectorAll('.shiftCaps');
-let keysPressed = new Set();
+let keysPressedStorage = new Set();
 let languageFlag = 1; // 1 — eng, 0 — rus
 
 /* count pressed keys */
 
 document.addEventListener('keydown', (event) => {
-  keysPressed.add(`${event.key}(${event.location})`);
+  keysPressedStorage.add(`${event.key}(${event.location})`);
   // console.log(keysPressed);
 });
 
 document.addEventListener('keyup', (event) => {
-  keysPressed.delete(`${event.key}(${event.location})`);
+  keysPressedStorage.delete(`${event.key}(${event.location})`);
   // console.log(keysPressed);
 });
 
