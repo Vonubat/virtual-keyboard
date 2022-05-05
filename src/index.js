@@ -45,6 +45,7 @@ let specialKeysStorage = {
 
 let keysPressedStorage = new Set();
 let languageFlag = 1; // 1 — eng, 0 — rus
+let capsLockFlag = 0; // 0 — turn off, 1- turn on
 
 /* count pressed keys */
 
@@ -97,6 +98,21 @@ function defaultActions(event) {
 
 window.addEventListener('keydown', defaultActions);
 
+/* CapsLock Check*/
+
+function capsLockCheck(event) {
+  let modifierState = event.getModifierState('CapsLock');
+  if (modifierState) {
+    capsLockFlag = 1;
+    CAPS_LOCK.classList.add('active');
+  } else {
+    capsLockFlag = 0;
+    CAPS_LOCK.classList.remove('active');
+  }
+}
+
+window.addEventListener('keydown', capsLockCheck);
+
 /* switch language */
 
 window.addEventListener('keydown', (event) => {
@@ -132,6 +148,7 @@ function pressedKey(event) {
       for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
         if (
           event.key === KEYS_ENG[i].children[j].textContent &&
+          event.key !== 'CapsLock' &&
           !Object.values(specialKeysStorage).some(
             (elem) => KEYS_ENG[i].parentElement === elem
           )
@@ -146,6 +163,7 @@ function pressedKey(event) {
       for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
         if (
           event.key === KEYS_RUS[i].children[j].textContent &&
+          event.key !== 'CapsLock' &&
           !Object.values(specialKeysStorage).some(
             (elem) => KEYS_ENG[i].parentElement === elem
           )
@@ -173,6 +191,7 @@ function unPressedKey(event) {
       for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
         if (
           event.key === KEYS_ENG[i].children[j].textContent &&
+          event.key !== 'CapsLock' &&
           !Object.values(specialKeysStorage).some(
             (elem) => KEYS_ENG[i].parentElement === elem
           )
@@ -187,6 +206,7 @@ function unPressedKey(event) {
       for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
         if (
           event.key === KEYS_RUS[i].children[j].textContent &&
+          event.key !== 'CapsLock' &&
           !Object.values(specialKeysStorage).some(
             (elem) => KEYS_ENG[i].parentElement === elem
           )
