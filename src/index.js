@@ -88,11 +88,22 @@ function defaultActions(event) {
     `ArrowRight(0)`,
   ];
 
+  // prevent single key action
   for (const item of disabledKeysStorage) {
     if (item === keyID) {
       event.preventDefault();
       // console.log('event.preventDefault() is run');
     }
+  }
+
+  // prevent keyboard shortcuts action
+  if (
+    (event.ctrlKey || event.altKey || event.shiftKey) &&
+    ('qwertyuiopasdfghjklzxcvbnm'.indexOf(event.key) !== -1 ||
+      'йцукенгшщзхъфывапролджэячсмитьбю'.indexOf(event.key) !== -1)
+  ) {
+    event.preventDefault();
+    // console.log('event.preventDefault() is run');
   }
 }
 
@@ -114,8 +125,7 @@ function capsLockCheck(event) {
 window.addEventListener('keydown', capsLockCheck);
 
 /* switch language */
-
-window.addEventListener('keydown', (event) => {
+function switchLanguage(event) {
   if (
     keysPressedStorage.has('Control(1)') &&
     keysPressedStorage.has('Alt(1)')
@@ -141,7 +151,9 @@ window.addEventListener('keydown', (event) => {
 
   console.log(event);
   // console.log(languageFlag);
-});
+}
+
+window.addEventListener('keydown', switchLanguage);
 
 /* visualization pressed keys */
 
