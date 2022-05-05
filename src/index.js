@@ -56,7 +56,7 @@ window.addEventListener('keydown', defaultActions);
 
 /* switch language */
 
-window.addEventListener('keydown', (e) => {
+window.addEventListener('keydown', (event) => {
   if (keysPressed.has('Control(1)') && keysPressed.has('Alt(1)')) {
     if (languageFlag === 1) {
       languageFlag = 0;
@@ -65,17 +65,55 @@ window.addEventListener('keydown', (e) => {
     }
   }
 
-  console.log(languageFlag);
-  console.log(e);
-  // console.log(temp);
+  console.log(event);
+  // console.log(languageFlag);
 });
 
 /* visualization pressed keys */
 
-// window.addEventListener('keydown', (e) => {
-//   for (let i = 0; i < KEYS.length; i += 1) {
-//     for (let j = 0; j < array.length; j++) {
-//       const element = array[j];
-//     }
-//   }
-// });
+function pressedKey(event) {
+  if (languageFlag === 1) {
+    for (let i = 0; i < KEYS_ENG.length; i += 1) {
+      for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
+        if (event.key === KEYS_ENG[i].children[j].textContent) {
+          KEYS_ENG[i].parentElement.classList.add('active');
+          // console.log(KEYS_ENG[i].parentElement);
+        }
+      }
+    }
+  } else {
+    for (let i = 0; i < KEYS_RUS.length; i += 1) {
+      for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
+        if (event.key === KEYS_RUS[i].children[j].textContent) {
+          KEYS_RUS[i].parentElement.classList.add('active');
+          // console.log(KEYS_RUS[i].parentElement);
+        }
+      }
+    }
+  }
+}
+
+function unPressedKey(event) {
+  if (languageFlag === 1) {
+    for (let i = 0; i < KEYS_ENG.length; i += 1) {
+      for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
+        if (event.key === KEYS_ENG[i].children[j].textContent) {
+          KEYS_ENG[i].parentElement.classList.remove('active');
+          // console.log(KEYS_ENG[i].parentElement);
+        }
+      }
+    }
+  } else {
+    for (let i = 0; i < KEYS_RUS.length; i += 1) {
+      for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
+        if (event.key === KEYS_RUS[i].children[j].textContent) {
+          KEYS_RUS[i].parentElement.classList.remove('active');
+          // console.log(KEYS_RUS[i].parentElement);
+        }
+      }
+    }
+  }
+}
+
+window.addEventListener('keydown', pressedKey);
+window.addEventListener('keyup', unPressedKey);
