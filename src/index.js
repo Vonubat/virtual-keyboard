@@ -143,6 +143,71 @@ function capsLockCheck(event) {
 
 window.addEventListener('keydown', capsLockCheck);
 
+/* Shift Check*/
+
+function shiftCheckDown(event) {
+  let modifierState = event.getModifierState('CapsLock');
+  if (modifierState && event.shiftKey) {
+    for (const item of CAPS) {
+      item.classList.add('hidden');
+    }
+    for (const item of CASE_DOWN) {
+      item.classList.add('hidden');
+    }
+    for (const item of CASE_UP) {
+      item.classList.add('hidden');
+    }
+    for (const item of SHIFT_CAPS) {
+      item.classList.remove('hidden');
+    }
+  }
+
+  if (!modifierState && event.shiftKey) {
+    for (const item of SHIFT_CAPS) {
+      item.classList.add('hidden');
+    }
+    for (const item of CASE_DOWN) {
+      item.classList.add('hidden');
+    }
+    for (const item of CASE_UP) {
+      item.classList.remove('hidden');
+    }
+  }
+}
+
+function shiftCheckUp(event) {
+  let modifierState = event.getModifierState('CapsLock');
+  if (modifierState && !event.shiftKey) {
+    for (const item of CAPS) {
+      item.classList.remove('hidden');
+    }
+    for (const item of CASE_DOWN) {
+      item.classList.add('hidden');
+    }
+    for (const item of CASE_UP) {
+      item.classList.add('hidden');
+    }
+    for (const item of SHIFT_CAPS) {
+      item.classList.add('hidden');
+    }
+  }
+
+  if (!modifierState && !event.shiftKey) {
+    for (const item of CASE_DOWN) {
+      item.classList.remove('hidden');
+    }
+    for (const item of CASE_UP) {
+      item.classList.add('hidden');
+    }
+    for (const item of SHIFT_CAPS) {
+      item.classList.add('hidden');
+    }
+  }
+}
+
+window.addEventListener('keydown', shiftCheckDown);
+window.addEventListener('keyup', shiftCheckUp);
+
 /* switch language */
 function switchLanguage() {
   if (languageFlag === 1) {
