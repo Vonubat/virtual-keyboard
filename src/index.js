@@ -121,9 +121,23 @@ function capsLockCheck(event) {
   if (modifierState) {
     capsLockFlag = 1;
     CAPS_LOCK.classList.add('active');
+
+    for (const item of CAPS) {
+      item.classList.remove('hidden');
+    }
+    for (const item of CASE_DOWN) {
+      item.classList.add('hidden');
+    }
   } else {
     capsLockFlag = 0;
     CAPS_LOCK.classList.remove('active');
+
+    for (const item of CAPS) {
+      item.classList.add('hidden');
+    }
+    for (const item of CASE_DOWN) {
+      item.classList.remove('hidden');
+    }
   }
 }
 
@@ -271,4 +285,4 @@ function unPressedKey(event) {
 window.addEventListener('keydown', pressedKey);
 window.addEventListener('keyup', unPressedKey);
 
-/* visualization pressed keys */
+/* text area functionality*/
