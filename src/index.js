@@ -122,8 +122,20 @@ window.addEventListener('keydown', (event) => {
   ) {
     if (languageFlag === 1) {
       languageFlag = 0;
+      for (const item of KEYS_RUS) {
+        item.classList.toggle('hidden');
+      }
+      for (const item of KEYS_ENG) {
+        item.classList.toggle('hidden');
+      }
     } else {
       languageFlag = 1;
+      for (const item of KEYS_RUS) {
+        item.classList.toggle('hidden');
+      }
+      for (const item of KEYS_ENG) {
+        item.classList.toggle('hidden');
+      }
     }
   }
 
@@ -143,34 +155,33 @@ function pressedKey(event) {
   }
 
   // common cases
-  if (languageFlag === 1) {
-    for (let i = 0; i < KEYS_ENG.length; i += 1) {
-      for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
-        if (
-          event.key === KEYS_ENG[i].children[j].textContent &&
-          event.key !== 'CapsLock' &&
-          !Object.values(specialKeysStorage).some(
-            (elem) => KEYS_ENG[i].parentElement === elem
-          )
-        ) {
-          KEYS_ENG[i].parentElement.classList.add('active');
-          // console.log(KEYS_ENG[i].parentElement);
-        }
+
+  for (let i = 0; i < KEYS_ENG.length; i += 1) {
+    for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
+      if (
+        event.key === KEYS_ENG[i].children[j].textContent &&
+        event.key !== 'CapsLock' &&
+        !Object.values(specialKeysStorage).some(
+          (elem) => KEYS_ENG[i].parentElement === elem
+        )
+      ) {
+        KEYS_ENG[i].parentElement.classList.add('active');
+        // console.log(KEYS_ENG[i].parentElement);
       }
     }
-  } else {
-    for (let i = 0; i < KEYS_RUS.length; i += 1) {
-      for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
-        if (
-          event.key === KEYS_RUS[i].children[j].textContent &&
-          event.key !== 'CapsLock' &&
-          !Object.values(specialKeysStorage).some(
-            (elem) => KEYS_ENG[i].parentElement === elem
-          )
-        ) {
-          KEYS_RUS[i].parentElement.classList.add('active');
-          // console.log(KEYS_RUS[i].parentElement);
-        }
+  }
+
+  for (let i = 0; i < KEYS_RUS.length; i += 1) {
+    for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
+      if (
+        event.key === KEYS_RUS[i].children[j].textContent &&
+        event.key !== 'CapsLock' &&
+        !Object.values(specialKeysStorage).some(
+          (elem) => KEYS_ENG[i].parentElement === elem
+        )
+      ) {
+        KEYS_RUS[i].parentElement.classList.add('active');
+        // console.log(KEYS_RUS[i].parentElement);
       }
     }
   }
@@ -186,34 +197,33 @@ function unPressedKey(event) {
   }
 
   // common cases
-  if (languageFlag === 1) {
-    for (let i = 0; i < KEYS_ENG.length; i += 1) {
-      for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
-        if (
-          event.key === KEYS_ENG[i].children[j].textContent &&
-          event.key !== 'CapsLock' &&
-          !Object.values(specialKeysStorage).some(
-            (elem) => KEYS_ENG[i].parentElement === elem
-          )
-        ) {
-          KEYS_ENG[i].parentElement.classList.remove('active');
-          // console.log(KEYS_ENG[i].parentElement);
-        }
+
+  for (let i = 0; i < KEYS_ENG.length; i += 1) {
+    for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
+      if (
+        event.key === KEYS_ENG[i].children[j].textContent &&
+        event.key !== 'CapsLock' &&
+        !Object.values(specialKeysStorage).some(
+          (elem) => KEYS_ENG[i].parentElement === elem
+        )
+      ) {
+        KEYS_ENG[i].parentElement.classList.remove('active');
+        // console.log(KEYS_ENG[i].parentElement);
       }
     }
-  } else {
-    for (let i = 0; i < KEYS_RUS.length; i += 1) {
-      for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
-        if (
-          event.key === KEYS_RUS[i].children[j].textContent &&
-          event.key !== 'CapsLock' &&
-          !Object.values(specialKeysStorage).some(
-            (elem) => KEYS_ENG[i].parentElement === elem
-          )
-        ) {
-          KEYS_RUS[i].parentElement.classList.remove('active');
-          // console.log(KEYS_RUS[i].parentElement);
-        }
+  }
+
+  for (let i = 0; i < KEYS_RUS.length; i += 1) {
+    for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
+      if (
+        event.key === KEYS_RUS[i].children[j].textContent &&
+        event.key !== 'CapsLock' &&
+        !Object.values(specialKeysStorage).some(
+          (elem) => KEYS_ENG[i].parentElement === elem
+        )
+      ) {
+        KEYS_RUS[i].parentElement.classList.remove('active');
+        // console.log(KEYS_RUS[i].parentElement);
       }
     }
   }
@@ -221,3 +231,5 @@ function unPressedKey(event) {
 
 window.addEventListener('keydown', pressedKey);
 window.addEventListener('keyup', unPressedKey);
+
+/* visualization pressed keys */
