@@ -236,8 +236,9 @@ function pressedKey(event) {
   for (let i = 0; i < KEYS_ENG.length; i += 1) {
     for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
       if (
-        event.key === KEYS_ENG[i].children[j].textContent &&
-        !event.key === KEYS_RUS[i].children[j].classList.contains('hidden') &&
+        (event.key === KEYS_ENG[i].children[j].textContent ||
+          event.key === KEYS_RUS[i].children[j].textContent) &&
+        !event.key === KEYS_ENG[i].children[j].classList.contains('hidden') &&
         event.key !== 'CapsLock' &&
         !Object.values(specialKeysStorage).some(
           (elem) => KEYS_ENG[i].parentElement === elem
@@ -246,8 +247,10 @@ function pressedKey(event) {
         KEYS_ENG[i].parentElement.classList.add('active');
 
         if (!KEYS_ENG[i].classList.contains('hidden')) {
-          // console.log(KEYS_ENG[i].parentElement);
+          TEXT_AREA.value += KEYS_ENG[i].children[j].textContent;
         }
+
+        // console.log(KEYS_ENG[i].parentElement);
       }
     }
   }
@@ -255,7 +258,8 @@ function pressedKey(event) {
   for (let i = 0; i < KEYS_RUS.length; i += 1) {
     for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
       if (
-        event.key === KEYS_RUS[i].children[j].textContent &&
+        (event.key === KEYS_ENG[i].children[j].textContent ||
+          event.key === KEYS_RUS[i].children[j].textContent) &&
         !event.key === KEYS_RUS[i].children[j].classList.contains('hidden') &&
         event.key !== 'CapsLock' &&
         !Object.values(specialKeysStorage).some(
@@ -263,6 +267,10 @@ function pressedKey(event) {
         )
       ) {
         KEYS_RUS[i].parentElement.classList.add('active');
+
+        if (!KEYS_RUS[i].classList.contains('hidden')) {
+          TEXT_AREA.value += KEYS_RUS[i].children[j].textContent;
+        }
 
         // console.log(KEYS_RUS[i].parentElement);
       }
@@ -317,5 +325,3 @@ window.addEventListener('keydown', pressedKey);
 window.addEventListener('keyup', unPressedKey);
 
 /* text area functionality*/
-
-window.addEventListener('keydown', (e) => {});
