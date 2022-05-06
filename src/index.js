@@ -72,11 +72,15 @@ function defaultActions(event) {
   return false;
 }
 
-window.addEventListener('keydown', defaultActions);
+document.addEventListener('keydown', defaultActions);
 
 /* CapsLock Check*/
 
 function capsLockCheck(event) {
+  if (event.isTrusted === false) {
+    return;
+  }
+
   let modifierState = event.getModifierState('CapsLock');
   if (modifierState) {
     capsLockFlag = 1;
@@ -101,11 +105,15 @@ function capsLockCheck(event) {
   }
 }
 
-window.addEventListener('keydown', capsLockCheck);
+document.addEventListener('keydown', capsLockCheck);
 
 /* Shift Check*/
 
 function shiftCheckDown(event) {
+  if (event.isTrusted === false) {
+    return;
+  }
+
   let modifierState = event.getModifierState('CapsLock');
   if (modifierState && event.shiftKey) {
     for (const item of CAPS) {
@@ -136,6 +144,10 @@ function shiftCheckDown(event) {
 }
 
 function shiftCheckUp(event) {
+  if (event.isTrusted === false) {
+    return;
+  }
+
   let modifierState = event.getModifierState('CapsLock');
   if (modifierState && !event.shiftKey) {
     for (const item of CAPS) {
@@ -165,8 +177,8 @@ function shiftCheckUp(event) {
   }
 }
 
-window.addEventListener('keydown', shiftCheckDown);
-window.addEventListener('keyup', shiftCheckUp);
+document.addEventListener('keydown', shiftCheckDown);
+document.addEventListener('keyup', shiftCheckUp);
 
 /* switch language */
 function switchLanguage() {
@@ -218,7 +230,7 @@ function switchLanguage() {
 }
 
 switchLanguage(); // for check after loading/reloading page
-window.addEventListener('keydown', switchLanguage);
+document.addEventListener('keydown', switchLanguage);
 
 /* visualization pressed keys + typing keys */
 
@@ -390,7 +402,7 @@ function pressedKey(event) {
       }
     }
   }
-  // console.log(event);
+  console.log(event);
 }
 
 function unPressedKey(event) {
@@ -438,5 +450,159 @@ function unPressedKey(event) {
   }
 }
 
-window.addEventListener('keydown', pressedKey);
-window.addEventListener('keyup', unPressedKey);
+document.addEventListener('keydown', pressedKey);
+document.addEventListener('keyup', unPressedKey);
+
+/* mouse events */
+
+function mouseDown(event) {
+  let eventDown = new KeyboardEvent('keydown', {
+    key: `${event.target.textContent}`,
+  });
+
+  //Delete case
+  if (eventDown.key === 'Del') {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'Delete',
+    });
+  }
+
+  //pair keys cases (Ctrl, Alt, Meta)
+  if (
+    event.target.parentElement.parentElement.classList.contains('ControlLeft')
+  ) {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'Control',
+      location: '1',
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('ControlRight')
+  ) {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'Control',
+      location: '2',
+    });
+  } else if (eventDown.key === 'Win') {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'Meta',
+      location: '1',
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('AltLeft')
+  ) {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'Alt',
+      location: '1',
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('AltRight')
+  ) {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'Alt',
+      location: '2',
+    });
+  }
+
+  //Arrows keys cases
+
+  if (eventDown.key === '◄') {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'ArrowLeft',
+    });
+  } else if (eventDown.key === '►') {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'ArrowRight',
+    });
+  } else if (eventDown.key === '▲') {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'ArrowUp',
+    });
+  } else if (eventDown.key === '▼') {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+    });
+  }
+
+  document.dispatchEvent(eventDown);
+
+  // console.log(event.target.parentElement.parentElement.classList);
+  // console.log(eventDown);
+}
+
+function mouseUp(event) {
+  let eventUp = new KeyboardEvent('keyup', {
+    key: `${event.target.textContent}`,
+  });
+
+  //Delete case
+  if (eventUp.key === 'Del') {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'Delete',
+    });
+  }
+
+  //pair keys cases (Ctrl, Alt, Meta)
+  if (
+    event.target.parentElement.parentElement.classList.contains('ControlLeft')
+  ) {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'Control',
+      location: '1',
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('ControlRight')
+  ) {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'Control',
+      location: '2',
+    });
+  } else if (eventUp.key === 'Win') {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'Meta',
+      location: '1',
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('AltLeft')
+  ) {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'Alt',
+      location: '1',
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('AltRight')
+  ) {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'Alt',
+      location: '2',
+    });
+  }
+
+  //Arrows keys cases
+
+  if (eventUp.key === '◄') {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'ArrowLeft',
+    });
+  } else if (eventUp.key === '►') {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'ArrowRight',
+    });
+  } else if (eventUp.key === '▲') {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'ArrowUp',
+    });
+  } else if (eventUp.key === '▼') {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'ArrowDown',
+    });
+  }
+
+  document.dispatchEvent(eventUp);
+  TEXT_AREA.focus();
+
+  // console.log(event.target.parentElement.parentElement.classList);
+  // console.log(eventUp);
+}
+
+document.addEventListener('mousedown', mouseDown);
+document.addEventListener('mouseup', mouseUp);
