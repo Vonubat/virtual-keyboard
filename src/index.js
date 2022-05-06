@@ -11,18 +11,18 @@ document.body.insertAdjacentHTML('beforeend', DOM);
 
 document.addEventListener('keydown', defaultActions);
 
+/* variables */
+// elements
 const TEXT_AREA = document.querySelector('#textarea');
-
 const KEYS_RUS = document.querySelectorAll('.rus');
 const KEYS_ENG = document.querySelectorAll('.eng');
-
+// internal elements of KEYS
 const CASE_DOWN = document.querySelectorAll('.caseDown');
 const CASE_UP = document.querySelectorAll('.caseUp');
 const CAPS = document.querySelectorAll('.caps');
 const SHIFT_CAPS = document.querySelectorAll('.shiftCaps');
-
+// special keys
 const CAPS_LOCK = document.querySelector('.CapsLock');
-
 const TAB = document.querySelector('.Tab');
 const ENTER = document.querySelector('.Enter');
 const DELETE = document.querySelector('.Delete');
@@ -38,7 +38,7 @@ const ARROW_UP = document.querySelector('.ArrowUp');
 const ARROW_DOWN = document.querySelector('.ArrowDown');
 const ARROW_LEFT = document.querySelector('.ArrowLeft');
 const ARROW_RIGHT = document.querySelector('.ArrowRight');
-
+// special keys storage
 let specialKeysStorage = {
   'Tab(0)': TAB,
   'Enter(0)': ENTER,
@@ -57,15 +57,14 @@ let specialKeysStorage = {
   'ArrowLeft(0)': ARROW_LEFT,
   'ArrowRight(0)': ARROW_RIGHT,
 };
-
+// language flag (1 — eng, 0 — rus)
 let languageFlag = Number(
   sessionStorage.length === 1 ? 1 : sessionStorage.getItem('languageFlag')
 );
-// 1 — eng, 0 — rus
+// CapsLock flag (0 — turn off, 1- turn on)
+let capsLockFlag = 0; //
 
-let capsLockFlag = 0; // 0 — turn off, 1- turn on
-
-/* CapsLock Check*/
+/* CapsLock Check */
 
 function capsLockCheck(event) {
   if (event.key === 'CapsLock' && capsLockFlag === 0) {
@@ -93,10 +92,10 @@ function capsLockCheck(event) {
 
 document.addEventListener('keydown', capsLockCheck);
 
-/* Shift Check*/
+/* Shift Check */
 
 function shiftCheckDown(event) {
-  console.log(event);
+  // console.log(event);
   if (capsLockFlag === 1 && event.shiftKey) {
     for (const item of CAPS) {
       item.classList.add('hidden');
@@ -201,9 +200,6 @@ function switchLanguage() {
       }
     }
   }
-
-  // console.log(languageFlag);
-  // console.log(sessionStorage);
 }
 
 switchLanguage(); // for check after loading/reloading page
@@ -213,7 +209,6 @@ document.addEventListener('keydown', switchLanguage);
 
 function pressedKey(event) {
   // special cases
-
   let keyID = `${event.key}(${event.location})`;
   // console.log(keyID);
   for (const item of Object.keys(specialKeysStorage)) {
@@ -323,7 +318,6 @@ function pressedKey(event) {
   }
 
   // common cases
-
   for (let i = 0; i < KEYS_ENG.length; i += 1) {
     for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
       if (
@@ -347,7 +341,6 @@ function pressedKey(event) {
           TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
             cursorPosition + 1;
         }
-
         // console.log(KEYS_ENG[i].parentElement);
       }
     }
@@ -375,9 +368,7 @@ function pressedKey(event) {
             TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
           TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = ++cursorPosition;
         }
-
         // console.log(KEYS_RUS[i].parentElement);
-        console.log(event);
       }
     }
   }
@@ -385,7 +376,6 @@ function pressedKey(event) {
 
 function unPressedKey(event) {
   // special cases
-
   let keyID = `${event.key}(${event.location})`;
   for (const item of Object.keys(specialKeysStorage)) {
     if (keyID === item) {
@@ -394,7 +384,6 @@ function unPressedKey(event) {
   }
 
   // common cases
-
   for (let i = 0; i < KEYS_ENG.length; i += 1) {
     for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
       if (
@@ -497,8 +486,8 @@ function mouseDown(event) {
       shiftKey: true,
     });
   }
-  //Arrows keys cases
 
+  //Arrows keys cases
   if (eventDown.key === '◄') {
     eventDown = new KeyboardEvent('keydown', {
       key: 'ArrowLeft',
@@ -518,7 +507,6 @@ function mouseDown(event) {
   }
 
   document.dispatchEvent(eventDown);
-
   // console.log(event.target.parentElement.parentElement.classList);
   // console.log(eventDown);
 }
@@ -586,7 +574,6 @@ function mouseUp(event) {
   }
 
   //Arrows keys cases
-
   if (eventUp.key === '◄') {
     eventUp = new KeyboardEvent('keyup', {
       key: 'ArrowLeft',
@@ -607,7 +594,6 @@ function mouseUp(event) {
 
   TEXT_AREA.focus(); // there is bug(?), after using focus ShiftRight keyboardEvent always has location = 0 (according to specification it should be 2). For this reason I add in specialKeysStorage: 'Shift(0)': SHIFT_RIGHT,
   document.dispatchEvent(eventUp);
-
   // console.log(event.target.parentElement.parentElement.classList);
   // console.log(eventUp);
 }
@@ -616,7 +602,7 @@ document.addEventListener('mousedown', mouseDown);
 document.addEventListener('mouseup', mouseUp);
 // document.addEventListener('mouseout', mouseUp);
 
-//suppress all JavaScript runtime error
+/* suppress all JavaScript runtime error */
 
 window.onerror = function (message, url, lineNumber) {
   // console.log('test');
