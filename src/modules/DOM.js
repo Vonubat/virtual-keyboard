@@ -852,10 +852,10 @@ const DOM = `<div class="centralizer">
   </div>
 </div>
 <p class="description">
-  Клавиатура создана в операционной системе Windows
+  The keyboard was created in Windows operating system
 </p>
 <p class="language">
-  Для переключения языка комбинация: левые ctrl + alt
+  Combination to switching language : Ctrl + Alt
 </p>
 </div>`;
 

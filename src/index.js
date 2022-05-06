@@ -125,6 +125,15 @@ function shiftCheckDown(event) {
 }
 
 function shiftCheckUp(event) {
+  // check double Shift
+  if (
+    SHIFT_LEFT.classList.contains('active') &&
+    SHIFT_RIGHT.classList.contains('active')
+  ) {
+    SHIFT_LEFT.classList.remove('active');
+    SHIFT_RIGHT.classList.remove('active');
+  }
+
   if (capsLockFlag === 1 && !event.shiftKey) {
     for (const item of CAPS) {
       item.classList.remove('hidden');
@@ -423,12 +432,15 @@ document.addEventListener('keyup', unPressedKey);
 
 /* mouse events */
 
+let pressDownEvent; // save event.target.textContent on dawn
+
 function mouseDown(event) {
   let eventDown = new KeyboardEvent('keydown', {
     key: `${event.target.textContent}`,
   });
 
-  //Delete case
+  pressDownEvent = event.target.textContent;
+  // Delete case
   if (eventDown.key === 'Del') {
     eventDown = new KeyboardEvent('keydown', {
       key: 'Delete',
@@ -513,7 +525,7 @@ function mouseDown(event) {
 
 function mouseUp(event) {
   let eventUp = new KeyboardEvent('keyup', {
-    key: `${event.target.textContent}`,
+    key: `${pressDownEvent}`,
   });
 
   //Delete case
@@ -600,7 +612,6 @@ function mouseUp(event) {
 
 document.addEventListener('mousedown', mouseDown);
 document.addEventListener('mouseup', mouseUp);
-// document.addEventListener('mouseout', mouseUp);
 
 /* suppress all JavaScript runtime error */
 
