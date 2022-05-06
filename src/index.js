@@ -68,49 +68,8 @@ document.addEventListener('keyup', (event) => {
 /* disable default action */
 
 function defaultActions(event) {
-  // console.log(event);
-  let keyID = `${event.key}(${event.location})`;
-  let disabledKeysStorage = [
-    `F1(0)`,
-    `F2(0)`,
-    `F3(0)`,
-    `F4(0)`,
-    `F5(0)`,
-    `F6(0)`,
-    `F7(0)`,
-    `F8(0)`,
-    `F9(0)`,
-    `F10(0)`,
-    `F11(0)`,
-    `F12(0)`,
-    `Control(1)`,
-    `Control(2)`,
-    `Alt(1)`,
-    `Alt(2)`,
-    `Tab(0)`,
-    `ArrowUp(0)`,
-    `ArrowDown(0)`,
-    `ArrowLeft(0)`,
-    `ArrowRight(0)`,
-  ];
-
-  // prevent single key action
-  for (const item of disabledKeysStorage) {
-    if (item === keyID) {
-      event.preventDefault();
-      // console.log('event.preventDefault() is run');
-    }
-  }
-
-  // prevent keyboard shortcuts action
-  if (
-    (event.ctrlKey || event.altKey || event.shiftKey) &&
-    ('qwertyuiopasdfghjklzxcvbnm'.indexOf(event.key) !== -1 ||
-      'йцукенгшщзхъфывапролджэячсмитьбю'.indexOf(event.key) !== -1)
-  ) {
-    event.preventDefault();
-    // console.log('event.preventDefault() is run');
-  }
+  event.preventDefault();
+  return false;
 }
 
 window.addEventListener('keydown', defaultActions);
