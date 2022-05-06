@@ -220,15 +220,116 @@ function switchLanguage() {
 switchLanguage(); // for check after loading/reloading page
 window.addEventListener('keydown', switchLanguage);
 
-/* visualization pressed keys */
+/* visualization pressed keys + typing keys */
 
 function pressedKey(event) {
   // special cases
+
   let keyID = `${event.key}(${event.location})`;
   for (const item of Object.keys(specialKeysStorage)) {
     if (keyID === item) {
+      // visualization
       specialKeysStorage[item].classList.add('active');
     }
+  }
+
+  if (keyID === 'Tab(0)') {
+    // Tab realization
+    let cursorPosition = TEXT_AREA.selectionStart;
+    TEXT_AREA.value =
+      TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+      '    ' +
+      TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+    TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 4;
+  }
+
+  if (keyID === 'Backspace(0)') {
+    // Backspace realization
+    let cursorPosition = TEXT_AREA.selectionStart;
+    if (cursorPosition === 0) {
+      TEXT_AREA.value = TEXT_AREA.value;
+    } else {
+      TEXT_AREA.value =
+        TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart - 1) +
+        TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+    }
+
+    if (TEXT_AREA.selectionStart === 0 && TEXT_AREA.selectionEnd === 0) {
+      TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = 0;
+    } else {
+      TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition - 1;
+    }
+  }
+
+  if (keyID === 'Delete(0)') {
+    // Delete realization
+    let cursorPosition = TEXT_AREA.selectionStart;
+
+    TEXT_AREA.value =
+      TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+      TEXT_AREA.value.slice(TEXT_AREA.selectionStart + 1);
+
+    TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition;
+  }
+
+  if (keyID === 'Enter(0)') {
+    // Enter realization
+    let cursorPosition = TEXT_AREA.selectionStart;
+
+    TEXT_AREA.value =
+      TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+      '\n' +
+      TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+
+    TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
+      TEXT_AREA.value.indexOf('\n', cursorPosition) + 1;
+  }
+
+  // Arrows realization
+  switch (keyID) {
+    case 'ArrowUp(0)':
+      {
+        let cursorPosition = TEXT_AREA.selectionStart;
+        TEXT_AREA.value =
+          TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+          '▲' +
+          TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+        TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 1;
+      }
+      break;
+    case 'ArrowDown(0)':
+      {
+        let cursorPosition = TEXT_AREA.selectionStart;
+        TEXT_AREA.value =
+          TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+          '▼' +
+          TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+        TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 1;
+      }
+      break;
+    case 'ArrowLeft(0)':
+      {
+        let cursorPosition = TEXT_AREA.selectionStart;
+        TEXT_AREA.value =
+          TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+          '◄' +
+          TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+        TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 1;
+      }
+      break;
+    case 'ArrowRight(0)':
+      {
+        let cursorPosition = TEXT_AREA.selectionStart;
+        TEXT_AREA.value =
+          TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+          '►' +
+          TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+        TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 1;
+      }
+      break;
+
+    default:
+      break;
   }
 
   // common cases
@@ -244,10 +345,17 @@ function pressedKey(event) {
           (elem) => KEYS_ENG[i].parentElement === elem
         )
       ) {
-        KEYS_ENG[i].parentElement.classList.add('active');
+        KEYS_ENG[i].parentElement.classList.add('active'); // visualization
 
         if (!KEYS_ENG[i].classList.contains('hidden')) {
-          TEXT_AREA.value += KEYS_ENG[i].children[j].textContent;
+          // typing
+          let cursorPosition = TEXT_AREA.selectionStart;
+          TEXT_AREA.value =
+            TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+            KEYS_ENG[i].children[j].textContent +
+            TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+          TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
+            cursorPosition + 1;
         }
 
         // console.log(KEYS_ENG[i].parentElement);
@@ -266,21 +374,28 @@ function pressedKey(event) {
           (elem) => KEYS_ENG[i].parentElement === elem
         )
       ) {
-        KEYS_RUS[i].parentElement.classList.add('active');
+        KEYS_RUS[i].parentElement.classList.add('active'); // visualization
 
         if (!KEYS_RUS[i].classList.contains('hidden')) {
-          TEXT_AREA.value += KEYS_RUS[i].children[j].textContent;
+          // typing
+          let cursorPosition = TEXT_AREA.selectionStart;
+          TEXT_AREA.value =
+            TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+            KEYS_RUS[i].children[j].textContent +
+            TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+          TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = ++cursorPosition;
         }
 
         // console.log(KEYS_RUS[i].parentElement);
       }
     }
   }
-  console.log(event);
+  // console.log(event);
 }
 
 function unPressedKey(event) {
   // special cases
+
   let keyID = `${event.key}(${event.location})`;
   for (const item of Object.keys(specialKeysStorage)) {
     if (keyID === item) {
@@ -293,7 +408,8 @@ function unPressedKey(event) {
   for (let i = 0; i < KEYS_ENG.length; i += 1) {
     for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
       if (
-        event.key === KEYS_ENG[i].children[j].textContent &&
+        (event.key === KEYS_ENG[i].children[j].textContent ||
+          event.key === KEYS_RUS[i].children[j].textContent) &&
         event.key !== 'CapsLock' &&
         !Object.values(specialKeysStorage).some(
           (elem) => KEYS_ENG[i].parentElement === elem
@@ -308,7 +424,8 @@ function unPressedKey(event) {
   for (let i = 0; i < KEYS_RUS.length; i += 1) {
     for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
       if (
-        event.key === KEYS_RUS[i].children[j].textContent &&
+        (event.key === KEYS_ENG[i].children[j].textContent ||
+          event.key === KEYS_RUS[i].children[j].textContent) &&
         event.key !== 'CapsLock' &&
         !Object.values(specialKeysStorage).some(
           (elem) => KEYS_ENG[i].parentElement === elem
@@ -323,5 +440,3 @@ function unPressedKey(event) {
 
 window.addEventListener('keydown', pressedKey);
 window.addEventListener('keyup', unPressedKey);
-
-/* text area functionality*/
