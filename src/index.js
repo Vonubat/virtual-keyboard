@@ -77,12 +77,7 @@ document.addEventListener('keydown', defaultActions);
 /* CapsLock Check*/
 
 function capsLockCheck(event) {
-  if (event.isTrusted === false) {
-    return;
-  }
-
-  let modifierState = event.getModifierState('CapsLock');
-  if (modifierState) {
+  if (event.key === 'CapsLock' && capsLockFlag === 0) {
     capsLockFlag = 1;
     CAPS_LOCK.classList.add('active');
 
@@ -92,7 +87,7 @@ function capsLockCheck(event) {
     for (const item of CASE_DOWN) {
       item.classList.add('hidden');
     }
-  } else {
+  } else if (event.key === 'CapsLock' && capsLockFlag === 1) {
     capsLockFlag = 0;
     CAPS_LOCK.classList.remove('active');
 
@@ -110,12 +105,7 @@ document.addEventListener('keydown', capsLockCheck);
 /* Shift Check*/
 
 function shiftCheckDown(event) {
-  if (event.isTrusted === false) {
-    return;
-  }
-
-  let modifierState = event.getModifierState('CapsLock');
-  if (modifierState && event.shiftKey) {
+  if (capsLockFlag === 1 && event.shiftKey) {
     for (const item of CAPS) {
       item.classList.add('hidden');
     }
@@ -130,7 +120,7 @@ function shiftCheckDown(event) {
     }
   }
 
-  if (!modifierState && event.shiftKey) {
+  if (capsLockFlag === 0 && event.shiftKey) {
     for (const item of SHIFT_CAPS) {
       item.classList.add('hidden');
     }
@@ -144,12 +134,11 @@ function shiftCheckDown(event) {
 }
 
 function shiftCheckUp(event) {
-  if (event.isTrusted === false) {
-    return;
-  }
+  // if (event.isTrusted === false) {
+  //   return;
+  // }
 
-  let modifierState = event.getModifierState('CapsLock');
-  if (modifierState && !event.shiftKey) {
+  if (capsLockFlag === 1 && !event.shiftKey) {
     for (const item of CAPS) {
       item.classList.remove('hidden');
     }
@@ -164,7 +153,7 @@ function shiftCheckUp(event) {
     }
   }
 
-  if (!modifierState && !event.shiftKey) {
+  if (capsLockFlag === 0 && !event.shiftKey) {
     for (const item of CASE_DOWN) {
       item.classList.remove('hidden');
     }
@@ -238,6 +227,7 @@ function pressedKey(event) {
   // special cases
 
   let keyID = `${event.key}(${event.location})`;
+  console.log(keyID);
   for (const item of Object.keys(specialKeysStorage)) {
     if (keyID === item) {
       // visualization
@@ -402,7 +392,6 @@ function pressedKey(event) {
       }
     }
   }
-  console.log(event);
 }
 
 function unPressedKey(event) {
@@ -448,6 +437,7 @@ function unPressedKey(event) {
       }
     }
   }
+  // console.log(event);
 }
 
 document.addEventListener('keydown', pressedKey);
@@ -467,7 +457,7 @@ function mouseDown(event) {
     });
   }
 
-  //pair keys cases (Ctrl, Alt, Meta)
+  //pair keys cases (Ctrl, Alt, Meta, Shift)
   if (
     event.target.parentElement.parentElement.classList.contains('ControlLeft')
   ) {
@@ -501,8 +491,23 @@ function mouseDown(event) {
       key: 'Alt',
       location: '2',
     });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('ShiftLeft')
+  ) {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'Shift',
+      location: '1',
+      shiftKey: true,
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('ShiftRight')
+  ) {
+    eventDown = new KeyboardEvent('keydown', {
+      key: 'Shift',
+      location: '2',
+      shiftKey: true,
+    });
   }
-
   //Arrows keys cases
 
   if (eventDown.key === '◄') {
@@ -541,7 +546,7 @@ function mouseUp(event) {
     });
   }
 
-  //pair keys cases (Ctrl, Alt, Meta)
+  //pair keys cases (Ctrl, Alt, Meta, Shift)
   if (
     event.target.parentElement.parentElement.classList.contains('ControlLeft')
   ) {
@@ -573,6 +578,20 @@ function mouseUp(event) {
   ) {
     eventUp = new KeyboardEvent('keyup', {
       key: 'Alt',
+      location: '2',
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('ShiftLeft')
+  ) {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'Shift',
+      location: '1',
+    });
+  } else if (
+    event.target.parentElement.parentElement.classList.contains('ShiftRight')
+  ) {
+    eventUp = new KeyboardEvent('keyup', {
+      key: 'Shift',
       location: '2',
     });
   }
