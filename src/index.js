@@ -35,6 +35,7 @@ let specialKeysStorage = {
   'Control(2)': CTRL_RIGHT,
   'Shift(1)': SHIFT_LEFT,
   'Shift(2)': SHIFT_RIGHT,
+  'Shift(0)': SHIFT_RIGHT, // some noncatch Bug
   'Meta(1)': META_LEFT,
   'Alt(1)': ALT_LEFT,
   'Alt(2)': ALT_RIGHT,
@@ -134,10 +135,6 @@ function shiftCheckDown(event) {
 }
 
 function shiftCheckUp(event) {
-  // if (event.isTrusted === false) {
-  //   return;
-  // }
-
   if (capsLockFlag === 1 && !event.shiftKey) {
     for (const item of CAPS) {
       item.classList.remove('hidden');
@@ -227,7 +224,7 @@ function pressedKey(event) {
   // special cases
 
   let keyID = `${event.key}(${event.location})`;
-  console.log(keyID);
+  // console.log(keyID);
   for (const item of Object.keys(specialKeysStorage)) {
     if (keyID === item) {
       // visualization
@@ -616,8 +613,8 @@ function mouseUp(event) {
     });
   }
 
+  TEXT_AREA.focus(); // there is bug(?), after using focus ShiftRight keyboardEvent always has location = 0 (according to specification it should be 2). For this reason I add in specialKeysStorage: 'Shift(0)': SHIFT_RIGHT,
   document.dispatchEvent(eventUp);
-  TEXT_AREA.focus();
 
   // console.log(event.target.parentElement.parentElement.classList);
   // console.log(eventUp);
