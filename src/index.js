@@ -1,3 +1,4 @@
+const TEXT_AREA = document.querySelector('#textarea');
 const KEYS = document.querySelectorAll('.key');
 const KEYS_RUS = document.querySelectorAll('.rus');
 const KEYS_ENG = document.querySelectorAll('.eng');
@@ -253,7 +254,6 @@ function switchLanguage() {
     }
   }
 
-  // console.log(event);
   // console.log(languageFlag);
   // console.log(sessionStorage);
 }
@@ -278,13 +278,17 @@ function pressedKey(event) {
     for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
       if (
         event.key === KEYS_ENG[i].children[j].textContent &&
+        !event.key === KEYS_RUS[i].children[j].classList.contains('hidden') &&
         event.key !== 'CapsLock' &&
         !Object.values(specialKeysStorage).some(
           (elem) => KEYS_ENG[i].parentElement === elem
         )
       ) {
         KEYS_ENG[i].parentElement.classList.add('active');
-        // console.log(KEYS_ENG[i].parentElement);
+
+        if (!KEYS_ENG[i].classList.contains('hidden')) {
+          // console.log(KEYS_ENG[i].parentElement);
+        }
       }
     }
   }
@@ -293,16 +297,19 @@ function pressedKey(event) {
     for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
       if (
         event.key === KEYS_RUS[i].children[j].textContent &&
+        !event.key === KEYS_RUS[i].children[j].classList.contains('hidden') &&
         event.key !== 'CapsLock' &&
         !Object.values(specialKeysStorage).some(
           (elem) => KEYS_ENG[i].parentElement === elem
         )
       ) {
         KEYS_RUS[i].parentElement.classList.add('active');
+
         // console.log(KEYS_RUS[i].parentElement);
       }
     }
   }
+  console.log(event);
 }
 
 function unPressedKey(event) {
@@ -351,3 +358,5 @@ window.addEventListener('keydown', pressedKey);
 window.addEventListener('keyup', unPressedKey);
 
 /* text area functionality*/
+
+window.addEventListener('keydown', (e) => {});
