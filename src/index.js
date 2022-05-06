@@ -327,7 +327,7 @@ function pressedKey(event) {
   }
 
   // common cases
-  for (let i = 0; i < KEYS_ENG.length; i += 1) {
+  outer: for (let i = 0; i < KEYS_ENG.length; i += 1) {
     for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
       if (
         (event.key === KEYS_ENG[i].children[j].textContent ||
@@ -342,20 +342,42 @@ function pressedKey(event) {
 
         if (!KEYS_ENG[i].classList.contains('hidden')) {
           // typing
-          let cursorPosition = TEXT_AREA.selectionStart;
-          TEXT_AREA.value =
-            TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-            KEYS_ENG[i].children[j].textContent +
-            TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-          TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
-            cursorPosition + 1;
+          if (event.key === '.') {
+            // tricky case1
+            let cursorPosition = TEXT_AREA.selectionStart;
+            TEXT_AREA.value =
+              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+              '.' +
+              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
+              cursorPosition + 1;
+            break outer;
+          } else if (event.key === '`') {
+            // tricky case2
+            let cursorPosition = TEXT_AREA.selectionStart;
+            TEXT_AREA.value =
+              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+              '`' +
+              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
+              cursorPosition + 1;
+            break outer;
+          } else {
+            let cursorPosition = TEXT_AREA.selectionStart;
+            TEXT_AREA.value =
+              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+              KEYS_ENG[i].children[j].textContent +
+              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
+              cursorPosition + 1;
+          }
         }
-        // console.log(KEYS_ENG[i].parentElement);
+        console.log(KEYS_ENG[i].parentElement);
       }
     }
   }
 
-  for (let i = 0; i < KEYS_RUS.length; i += 1) {
+  outer: for (let i = 0; i < KEYS_RUS.length; i += 1) {
     for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
       if (
         (event.key === KEYS_ENG[i].children[j].textContent ||
@@ -370,17 +392,42 @@ function pressedKey(event) {
 
         if (!KEYS_RUS[i].classList.contains('hidden')) {
           // typing
-          let cursorPosition = TEXT_AREA.selectionStart;
-          TEXT_AREA.value =
-            TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-            KEYS_RUS[i].children[j].textContent +
-            TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-          TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = ++cursorPosition;
+
+          if (event.key === '.') {
+            // tricky case1
+            let cursorPosition = TEXT_AREA.selectionStart;
+            TEXT_AREA.value =
+              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+              '.' +
+              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
+              cursorPosition + 1;
+            break outer;
+          } else if (event.key === '`') {
+            // tricky case2
+            let cursorPosition = TEXT_AREA.selectionStart;
+            TEXT_AREA.value =
+              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+              '`' +
+              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
+              cursorPosition + 1;
+            break outer;
+          } else {
+            let cursorPosition = TEXT_AREA.selectionStart;
+            TEXT_AREA.value =
+              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+              KEYS_RUS[i].children[j].textContent +
+              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
+              cursorPosition + 1;
+          }
         }
-        // console.log(KEYS_RUS[i].parentElement);
+        console.log(KEYS_RUS[i].parentElement);
       }
     }
   }
+  console.log(event);
 }
 
 function unPressedKey(event) {
