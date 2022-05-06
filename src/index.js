@@ -1,5 +1,6 @@
 'use strict';
 import DOM from './modules/DOM.js';
+import keysPressedStorage from './modules/countPressedkeys.js';
 
 /* DOM generator */
 
@@ -52,26 +53,12 @@ let specialKeysStorage = {
   'ArrowRight(0)': ARROW_RIGHT,
 };
 
-let keysPressedStorage = new Set();
-
 let languageFlag = Number(
   sessionStorage.length === 1 ? 1 : sessionStorage.getItem('languageFlag')
 );
 // 1 — eng, 0 — rus
 
 let capsLockFlag = 0; // 0 — turn off, 1- turn on
-
-/* count pressed keys */
-
-document.addEventListener('keydown', (event) => {
-  keysPressedStorage.add(`${event.key}(${event.location})`);
-  // console.log(keysPressed);
-});
-
-document.addEventListener('keyup', (event) => {
-  keysPressedStorage.delete(`${event.key}(${event.location})`);
-  // console.log(keysPressed);
-});
 
 /* disable default action */
 
