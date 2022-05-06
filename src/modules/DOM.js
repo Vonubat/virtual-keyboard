@@ -1,5 +1,3 @@
-'use strict';
-
 const DOM = `<div class="centralizer">
 <p class="title">Virtual Keyboard</p>
 <textarea

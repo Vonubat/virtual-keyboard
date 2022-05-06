@@ -1,5 +1,3 @@
-'use strict';
-
 let keysPressedStorage = new Set();
 
 /* count pressed keys */

@@ -1,10 +1,15 @@
 'use strict';
 import DOM from './modules/DOM.js';
 import keysPressedStorage from './modules/countPressedkeys.js';
+import defaultActions from './modules/disableDefaultAction.js';
 
 /* DOM generator */
 
 document.body.insertAdjacentHTML('beforeend', DOM);
+
+/* disable default action */
+
+document.addEventListener('keydown', defaultActions);
 
 const TEXT_AREA = document.querySelector('#textarea');
 
@@ -60,15 +65,6 @@ let languageFlag = Number(
 
 let capsLockFlag = 0; // 0 — turn off, 1- turn on
 
-/* disable default action */
-
-function defaultActions(event) {
-  event.preventDefault();
-  return false;
-}
-
-document.addEventListener('keydown', defaultActions);
-
 /* CapsLock Check*/
 
 function capsLockCheck(event) {
@@ -100,6 +96,7 @@ document.addEventListener('keydown', capsLockCheck);
 /* Shift Check*/
 
 function shiftCheckDown(event) {
+  console.log(event);
   if (capsLockFlag === 1 && event.shiftKey) {
     for (const item of CAPS) {
       item.classList.add('hidden');
@@ -380,6 +377,7 @@ function pressedKey(event) {
         }
 
         // console.log(KEYS_RUS[i].parentElement);
+        console.log(event);
       }
     }
   }
