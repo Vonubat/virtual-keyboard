@@ -644,7 +644,7 @@ function mouseUp(event) {
     });
   } else if (eventUp.key === '▲') {
     eventUp = new KeyboardEvent('keyup', {
-      key: 'viArrowUp',
+      key: 'ArrowUp',
     });
   } else if (eventUp.key === '▼') {
     eventUp = new KeyboardEvent('keyup', {
