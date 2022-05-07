@@ -376,7 +376,7 @@ function pressedKey(event) {
               + TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
             TEXT_AREA.selectionStart = cursorPosition + 1;
             TEXT_AREA.selectionEnd = cursorPosition + 1;
-            return true;
+            // return true;
           }
         }
       }
@@ -406,7 +406,7 @@ function pressedKey(event) {
               + TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
             TEXT_AREA.selectionStart = cursorPosition + 1;
             TEXT_AREA.selectionEnd = cursorPosition + 1;
-            return true;
+            // return true;
           }
         }
       }
