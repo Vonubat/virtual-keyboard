@@ -309,7 +309,7 @@ function pressedKey(event) {
   if (
     keyID === 'ArrowUp(0)'
     || keyID === 'ArrowDown(0)'
-    || keyID === 'ArrowLeft(0))'
+    || keyID === 'ArrowLeft(0)'
     || keyID === 'ArrowRight(0)'
   ) {
     const cursorPosition = TEXT_AREA.selectionStart;
