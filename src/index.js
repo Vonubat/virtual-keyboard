@@ -1,4 +1,3 @@
-'use strict';
 import DOM from './modules/DOM.js';
 import keysPressedStorage from './modules/countPressedkeys.js';
 import defaultActions from './modules/disableDefaultAction.js';
@@ -39,7 +38,7 @@ const ARROW_DOWN = document.querySelector('.ArrowDown');
 const ARROW_LEFT = document.querySelector('.ArrowLeft');
 const ARROW_RIGHT = document.querySelector('.ArrowRight');
 // special keys storage
-let specialKeysStorage = {
+const specialKeysStorage = {
   'Tab(0)': TAB,
   'Enter(0)': ENTER,
   'Delete(0)': DELETE,
@@ -48,7 +47,7 @@ let specialKeysStorage = {
   'Control(2)': CTRL_RIGHT,
   'Shift(1)': SHIFT_LEFT,
   'Shift(2)': SHIFT_RIGHT,
-  'Shift(0)': SHIFT_RIGHT, // some noncatch Bug
+  'Shift(0)': SHIFT_RIGHT, // some Uncaught Bug
   'Meta(1)': META_LEFT,
   'Alt(1)': ALT_LEFT,
   'Alt(2)': ALT_RIGHT,
@@ -57,12 +56,21 @@ let specialKeysStorage = {
   'ArrowLeft(0)': ARROW_LEFT,
   'ArrowRight(0)': ARROW_RIGHT,
 };
+// arrows strings storage
+const arrowsStorage = {
+  'ArrowUp(0)': '▲',
+  'ArrowDown(0)': '▼',
+  'ArrowLeft(0)': '◄',
+  'ArrowRight(0)': '►',
+};
 // language flag (1 — eng, 0 — rus)
 let languageFlag = Number(
-  sessionStorage.length === 1 ? 1 : sessionStorage.getItem('languageFlag')
+  sessionStorage.length === 1 ? 1 : sessionStorage.getItem('languageFlag'),
 );
 // CapsLock flag (0 — turn off, 1- turn on)
 let capsLockFlag = 0; //
+// Shift flag (0 — turn off, 1- turn on)
+let shiftFlag = 0; //
 
 /* CapsLock Check */
 
@@ -71,21 +79,21 @@ function capsLockCheck(event) {
     capsLockFlag = 1;
     CAPS_LOCK.classList.add('active');
 
-    for (const item of CAPS) {
-      item.classList.remove('hidden');
+    for (let i = 0; i < CAPS.length; i += 1) {
+      CAPS[i].classList.remove('hidden');
     }
-    for (const item of CASE_DOWN) {
-      item.classList.add('hidden');
+    for (let i = 0; i < CASE_DOWN.length; i += 1) {
+      CASE_DOWN[i].classList.add('hidden');
     }
   } else if (event.key === 'CapsLock' && capsLockFlag === 1) {
     capsLockFlag = 0;
     CAPS_LOCK.classList.remove('active');
 
-    for (const item of CAPS) {
-      item.classList.add('hidden');
+    for (let i = 0; i < CAPS.length; i += 1) {
+      CAPS[i].classList.add('hidden');
     }
-    for (const item of CASE_DOWN) {
-      item.classList.remove('hidden');
+    for (let i = 0; i < CASE_DOWN.length; i += 1) {
+      CASE_DOWN[i].classList.remove('hidden');
     }
   }
 }
@@ -97,29 +105,34 @@ document.addEventListener('keydown', capsLockCheck);
 function shiftCheckDown(event) {
   // console.log(event);
   if (capsLockFlag === 1 && event.shiftKey) {
-    for (const item of CAPS) {
-      item.classList.add('hidden');
+    shiftFlag = 1;
+    for (let i = 0; i < CAPS.length; i += 1) {
+      CAPS[i].classList.add('hidden');
     }
-    for (const item of CASE_DOWN) {
-      item.classList.add('hidden');
+    for (let i = 0; i < CASE_DOWN.length; i += 1) {
+      CASE_DOWN[i].classList.add('hidden');
     }
-    for (const item of CASE_UP) {
-      item.classList.add('hidden');
+    for (let i = 0; i < CASE_UP.length; i += 1) {
+      CASE_UP[i].classList.add('hidden');
     }
-    for (const item of SHIFT_CAPS) {
-      item.classList.remove('hidden');
+    for (let i = 0; i < SHIFT_CAPS.length; i += 1) {
+      SHIFT_CAPS[i].classList.remove('hidden');
     }
   }
 
   if (capsLockFlag === 0 && event.shiftKey) {
-    for (const item of SHIFT_CAPS) {
-      item.classList.add('hidden');
+    shiftFlag = 1;
+    for (let i = 0; i < SHIFT_CAPS.length; i += 1) {
+      SHIFT_CAPS[i].classList.add('hidden');
     }
-    for (const item of CASE_DOWN) {
-      item.classList.add('hidden');
+    for (let i = 0; i < CASE_DOWN.length; i += 1) {
+      CASE_DOWN[i].classList.add('hidden');
     }
-    for (const item of CASE_UP) {
-      item.classList.remove('hidden');
+    for (let i = 0; i < CAPS.length; i += 1) {
+      CAPS[i].classList.add('hidden');
+    }
+    for (let i = 0; i < CASE_UP.length; i += 1) {
+      CASE_UP[i].classList.remove('hidden');
     }
   }
 }
@@ -127,37 +140,42 @@ function shiftCheckDown(event) {
 function shiftCheckUp(event) {
   // check double Shift
   if (
-    SHIFT_LEFT.classList.contains('active') &&
-    SHIFT_RIGHT.classList.contains('active')
+    SHIFT_LEFT.classList.contains('active')
+    && SHIFT_RIGHT.classList.contains('active')
   ) {
     SHIFT_LEFT.classList.remove('active');
     SHIFT_RIGHT.classList.remove('active');
   }
 
   if (capsLockFlag === 1 && !event.shiftKey) {
-    for (const item of CAPS) {
-      item.classList.remove('hidden');
+    shiftFlag = 0;
+    for (let i = 0; i < CAPS.length; i += 1) {
+      CAPS[i].classList.remove('hidden');
     }
-    for (const item of CASE_DOWN) {
-      item.classList.add('hidden');
+    for (let i = 0; i < CASE_DOWN.length; i += 1) {
+      CASE_DOWN[i].classList.add('hidden');
     }
-    for (const item of CASE_UP) {
-      item.classList.add('hidden');
+    for (let i = 0; i < CASE_UP.length; i += 1) {
+      CASE_UP[i].classList.add('hidden');
     }
-    for (const item of SHIFT_CAPS) {
-      item.classList.add('hidden');
+    for (let i = 0; i < SHIFT_CAPS.length; i += 1) {
+      SHIFT_CAPS[i].classList.add('hidden');
     }
   }
 
   if (capsLockFlag === 0 && !event.shiftKey) {
-    for (const item of CASE_DOWN) {
-      item.classList.remove('hidden');
+    shiftFlag = 0;
+    for (let i = 0; i < CASE_DOWN.length; i += 1) {
+      CASE_DOWN[i].classList.remove('hidden');
     }
-    for (const item of CASE_UP) {
-      item.classList.add('hidden');
+    for (let i = 0; i < CASE_UP.length; i += 1) {
+      CASE_UP[i].classList.add('hidden');
     }
-    for (const item of SHIFT_CAPS) {
-      item.classList.add('hidden');
+    for (let i = 0; i < SHIFT_CAPS.length; i += 1) {
+      SHIFT_CAPS[i].classList.add('hidden');
+    }
+    for (let i = 0; i < CAPS.length; i += 1) {
+      CAPS[i].classList.add('hidden');
     }
   }
 }
@@ -168,44 +186,44 @@ document.addEventListener('keyup', shiftCheckUp);
 /* switch language */
 function switchLanguage() {
   if (languageFlag === 1) {
-    for (const item of KEYS_RUS) {
-      item.classList.add('hidden');
+    for (let i = 0; i < KEYS_RUS.length; i += 1) {
+      KEYS_RUS[i].classList.add('hidden');
     }
-    for (const item of KEYS_ENG) {
-      item.classList.remove('hidden');
+    for (let i = 0; i < KEYS_ENG.length; i += 1) {
+      KEYS_ENG[i].classList.remove('hidden');
     }
   } else {
-    for (const item of KEYS_RUS) {
-      item.classList.remove('hidden');
+    for (let i = 0; i < KEYS_RUS.length; i += 1) {
+      KEYS_RUS[i].classList.remove('hidden');
     }
-    for (const item of KEYS_ENG) {
-      item.classList.add('hidden');
+    for (let i = 0; i < KEYS_ENG.length; i += 1) {
+      KEYS_ENG[i].classList.add('hidden');
     }
   }
 
   if (
-    keysPressedStorage.has('Control(1)') &&
-    keysPressedStorage.has('Alt(1)')
+    keysPressedStorage.has('Control(1)')
+    && keysPressedStorage.has('Alt(1)')
   ) {
     if (languageFlag === 1) {
       sessionStorage.setItem('languageFlag', 0);
       languageFlag = 0;
 
-      for (const item of KEYS_RUS) {
-        item.classList.toggle('hidden');
+      for (let i = 0; i < KEYS_RUS.length; i += 1) {
+        KEYS_RUS[i].classList.toggle('hidden');
       }
-      for (const item of KEYS_ENG) {
-        item.classList.toggle('hidden');
+      for (let i = 0; i < KEYS_ENG.length; i += 1) {
+        KEYS_ENG[i].classList.toggle('hidden');
       }
     } else {
       sessionStorage.setItem('languageFlag', 1);
       languageFlag = 1;
 
-      for (const item of KEYS_RUS) {
-        item.classList.toggle('hidden');
+      for (let i = 0; i < KEYS_RUS.length; i += 1) {
+        KEYS_RUS[i].classList.toggle('hidden');
       }
-      for (const item of KEYS_ENG) {
-        item.classList.toggle('hidden');
+      for (let i = 0; i < KEYS_ENG.length; i += 1) {
+        KEYS_ENG[i].classList.toggle('hidden');
       }
     }
   }
@@ -218,260 +236,218 @@ document.addEventListener('keydown', switchLanguage);
 
 function pressedKey(event) {
   // special cases
-  let keyID = `${event.key}(${event.location})`;
+  const keyID = `${event.key}(${event.location})`;
   // console.log(keyID);
-  for (const item of Object.keys(specialKeysStorage)) {
-    if (keyID === item) {
+  for (let i = 0; i < Object.keys(specialKeysStorage).length; i += 1) {
+    if (keyID === Object.keys(specialKeysStorage)[i]) {
       // visualization
-      specialKeysStorage[item].classList.add('active');
+      specialKeysStorage[Object.keys(specialKeysStorage)[i]].classList.add('active');
     }
   }
 
   if (keyID === 'Tab(0)') {
     // Tab realization
-    let cursorPosition = TEXT_AREA.selectionStart;
-    TEXT_AREA.value =
-      TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-      '    ' +
-      TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-    TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 4;
+    const cursorPosition = TEXT_AREA.selectionStart;
+    TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
+    }    ${
+      TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
+    TEXT_AREA.selectionStart = cursorPosition + 4;
+    TEXT_AREA.selectionEnd = cursorPosition + 4;
   }
 
   if (keyID === 'Backspace(0)') {
     // Backspace realization
-    let cursorPosition = TEXT_AREA.selectionStart;
-    if (cursorPosition === 0) {
-      TEXT_AREA.value = TEXT_AREA.value;
-    } else {
-      TEXT_AREA.value =
-        TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart - 1) +
-        TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+    const cursorPosition = TEXT_AREA.selectionStart;
+    if (cursorPosition !== 0) {
+      TEXT_AREA.value = TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart - 1)
+      + TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
     }
 
     if (TEXT_AREA.selectionStart === 0 && TEXT_AREA.selectionEnd === 0) {
-      TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = 0;
+      TEXT_AREA.selectionStart = 0;
+      TEXT_AREA.selectionEnd = 0;
     } else {
-      TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition - 1;
+      TEXT_AREA.selectionStart = cursorPosition - 1;
+      TEXT_AREA.selectionEnd = cursorPosition - 1;
     }
   }
 
   if (keyID === 'Delete(0)') {
     // Delete realization
-    let cursorPosition = TEXT_AREA.selectionStart;
+    const cursorPosition = TEXT_AREA.selectionStart;
 
-    TEXT_AREA.value =
-      TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-      TEXT_AREA.value.slice(TEXT_AREA.selectionStart + 1);
+    TEXT_AREA.value = TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
+      + TEXT_AREA.value.slice(TEXT_AREA.selectionStart + 1);
 
-    TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition;
+    TEXT_AREA.selectionStart = cursorPosition;
+    TEXT_AREA.selectionEnd = cursorPosition;
   }
 
   if (keyID === 'Enter(0)') {
     // Enter realization
-    let cursorPosition = TEXT_AREA.selectionStart;
+    const cursorPosition = TEXT_AREA.selectionStart;
 
-    TEXT_AREA.value =
-      TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-      '\n' +
-      TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+    TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
+    }\n${
+      TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
 
-    TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
-      TEXT_AREA.value.indexOf('\n', cursorPosition) + 1;
+    TEXT_AREA.selectionStart = TEXT_AREA.value.indexOf('\n', cursorPosition) + 1;
+    TEXT_AREA.selectionEnd = TEXT_AREA.value.indexOf('\n', cursorPosition) + 1;
   }
 
   // Arrows realization
-  switch (keyID) {
-    case 'ArrowUp(0)':
-      {
-        let cursorPosition = TEXT_AREA.selectionStart;
-        TEXT_AREA.value =
-          TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-          '▲' +
-          TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-        TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 1;
-      }
-      break;
-    case 'ArrowDown(0)':
-      {
-        let cursorPosition = TEXT_AREA.selectionStart;
-        TEXT_AREA.value =
-          TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-          '▼' +
-          TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-        TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 1;
-      }
-      break;
-    case 'ArrowLeft(0)':
-      {
-        let cursorPosition = TEXT_AREA.selectionStart;
-        TEXT_AREA.value =
-          TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-          '◄' +
-          TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-        TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 1;
-      }
-      break;
-    case 'ArrowRight(0)':
-      {
-        let cursorPosition = TEXT_AREA.selectionStart;
-        TEXT_AREA.value =
-          TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-          '►' +
-          TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-        TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd = cursorPosition + 1;
-      }
-      break;
-
-    default:
-      break;
+  if (keyID === 'ArrowUp(0)' || keyID === 'ArrowDown(0)' || keyID === 'ArrowLeft(0))' || keyID === 'ArrowRight(0)') {
+    const cursorPosition = TEXT_AREA.selectionStart;
+    TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
+    }${arrowsStorage[keyID]}${
+      TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
+    TEXT_AREA.selectionStart = cursorPosition + 1;
+    TEXT_AREA.selectionEnd = cursorPosition + 1;
   }
 
   // common cases
-  outer: for (let i = 0; i < KEYS_ENG.length; i += 1) {
-    for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
-      if (
-        (event.key === KEYS_ENG[i].children[j].textContent ||
-          event.key === KEYS_RUS[i].children[j].textContent) &&
-        !event.key === KEYS_ENG[i].children[j].classList.contains('hidden') &&
-        event.key !== 'CapsLock' &&
-        !Object.values(specialKeysStorage).some(
-          (elem) => KEYS_ENG[i].parentElement === elem
-        )
-      ) {
-        KEYS_ENG[i].parentElement.classList.add('active'); // visualization
-
-        if (!KEYS_ENG[i].classList.contains('hidden')) {
-          // typing
-          if (event.key === '.') {
-            // tricky case1
-            let cursorPosition = TEXT_AREA.selectionStart;
-            TEXT_AREA.value =
-              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-              '.' +
-              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
-              cursorPosition + 1;
-            break outer;
-          } else if (event.key === '`') {
-            // tricky case2
-            let cursorPosition = TEXT_AREA.selectionStart;
-            TEXT_AREA.value =
-              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-              '`' +
-              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
-              cursorPosition + 1;
-            break outer;
-          } else {
-            let cursorPosition = TEXT_AREA.selectionStart;
-            TEXT_AREA.value =
-              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-              KEYS_ENG[i].children[j].textContent +
-              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
-              cursorPosition + 1;
-          }
-        }
-        console.log(KEYS_ENG[i].parentElement);
-      }
+  function keyFlag(currentEvent) {
+    // check status of Shift and CapsLock
+    let key;
+    if (capsLockFlag === 1 && shiftFlag === 0 && currentEvent.key !== 'CapsLock') {
+      key = currentEvent.key.toUpperCase();
     }
+    if (capsLockFlag === 0 && shiftFlag === 0 && currentEvent.key !== 'CapsLock') {
+      key = currentEvent.key.toLowerCase();
+    }
+    if (capsLockFlag === 1 && shiftFlag === 1 && currentEvent.key !== 'CapsLock') {
+      key = currentEvent.key.toLowerCase();
+    }
+    if (capsLockFlag === 0 && shiftFlag === 1 && currentEvent.key !== 'CapsLock') {
+      key = currentEvent.key.toUpperCase();
+    }
+    return key;
   }
 
-  outer: for (let i = 0; i < KEYS_RUS.length; i += 1) {
-    for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
-      if (
-        (event.key === KEYS_ENG[i].children[j].textContent ||
-          event.key === KEYS_RUS[i].children[j].textContent) &&
-        !event.key === KEYS_RUS[i].children[j].classList.contains('hidden') &&
-        event.key !== 'CapsLock' &&
-        !Object.values(specialKeysStorage).some(
-          (elem) => KEYS_ENG[i].parentElement === elem
-        )
-      ) {
-        KEYS_RUS[i].parentElement.classList.add('active'); // visualization
+  function keysEng(inputKey) {
+    for (let i = 0; i < KEYS_ENG.length; i += 1) {
+      for (let j = 0; j < KEYS_ENG[i].children.length; j += 1) {
+        if (
+          (inputKey === KEYS_ENG[i].children[j].textContent
+            || inputKey === KEYS_RUS[i].children[j].textContent)
+          && !inputKey === KEYS_ENG[i].children[j].classList.contains('hidden')
 
-        if (!KEYS_RUS[i].classList.contains('hidden')) {
-          // typing
+          && !Object.values(specialKeysStorage).some(
+            (elem) => KEYS_ENG[i].parentElement === elem,
+          )
+        ) {
+          KEYS_ENG[i].parentElement.classList.add('active'); // visualization
 
-          if (event.key === '.') {
-            // tricky case1
-            let cursorPosition = TEXT_AREA.selectionStart;
-            TEXT_AREA.value =
-              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-              '.' +
-              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
-              cursorPosition + 1;
-            break outer;
-          } else if (event.key === '`') {
-            // tricky case2
-            let cursorPosition = TEXT_AREA.selectionStart;
-            TEXT_AREA.value =
-              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-              '`' +
-              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
-              cursorPosition + 1;
-            break outer;
-          } else {
-            let cursorPosition = TEXT_AREA.selectionStart;
-            TEXT_AREA.value =
-              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
-              KEYS_RUS[i].children[j].textContent +
-              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
-            TEXT_AREA.selectionStart = TEXT_AREA.selectionEnd =
-              cursorPosition + 1;
+          if (!KEYS_ENG[i].classList.contains('hidden')) {
+            // typing
+            if (inputKey === '.' || inputKey === '`') {
+              // tricky case
+              const cursorPosition = TEXT_AREA.selectionStart;
+              TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
+              }${inputKey}${
+                TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
+              TEXT_AREA.selectionStart = cursorPosition + 1;
+              TEXT_AREA.selectionEnd = cursorPosition + 1;
+              return true;
+            }
+
+            const cursorPosition = TEXT_AREA.selectionStart;
+            TEXT_AREA.value = TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
+                + KEYS_ENG[i].children[j].textContent
+                + TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.selectionStart = cursorPosition + 1;
+            TEXT_AREA.selectionEnd = cursorPosition + 1;
           }
         }
-        console.log(KEYS_RUS[i].parentElement);
       }
     }
+
+    return true;
   }
-  console.log(event);
+
+  function keysRus(inputKey) {
+    for (let i = 0; i < KEYS_RUS.length; i += 1) {
+      for (let j = 0; j < KEYS_RUS[i].children.length; j += 1) {
+        if (
+          (inputKey === KEYS_ENG[i].children[j].textContent
+            || inputKey === KEYS_RUS[i].children[j].textContent)
+          && !inputKey === KEYS_RUS[i].children[j].classList.contains('hidden')
+          && !Object.values(specialKeysStorage).some(
+            (elem) => KEYS_ENG[i].parentElement === elem,
+          )
+        ) {
+          KEYS_RUS[i].parentElement.classList.add('active'); // visualization
+
+          if (!KEYS_RUS[i].classList.contains('hidden')) {
+            // typing
+
+            if (inputKey === '.' || inputKey === '`') {
+              // tricky case
+              const cursorPosition = TEXT_AREA.selectionStart;
+              TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
+              }${inputKey}${
+                TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
+              TEXT_AREA.selectionStart = cursorPosition + 1;
+              TEXT_AREA.selectionEnd = cursorPosition + 1;
+              return true;
+            }
+            const cursorPosition = TEXT_AREA.selectionStart;
+            TEXT_AREA.value = TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
+                + KEYS_RUS[i].children[j].textContent
+                + TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.selectionStart = cursorPosition + 1;
+            TEXT_AREA.selectionEnd = cursorPosition + 1;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  keysEng(keyFlag(event));
+  keysRus(keyFlag(event));
 }
 
 function unPressedKey(event) {
   // special cases
-  let keyID = `${event.key}(${event.location})`;
-  for (const item of Object.keys(specialKeysStorage)) {
-    if (keyID === item) {
-      specialKeysStorage[item].classList.remove('active');
+  const keyID = `${event.key}(${event.location})`;
+  for (let i = 0; i < Object.keys(specialKeysStorage).length; i += 1) {
+    if (keyID === Object.keys(specialKeysStorage)[i]) {
+      // visualization
+      specialKeysStorage[Object.keys(specialKeysStorage)[i]].classList.remove('active');
     }
   }
 
   // common cases
   for (let i = 0; i < KEYS_ENG.length; i += 1) {
-    for (let j = 0; j < KEYS_ENG[i].children.length; j++) {
+    for (let j = 0; j < KEYS_ENG[i].children.length; j += 1) {
       if (
-        (event.key === KEYS_ENG[i].children[j].textContent ||
-          event.key === KEYS_RUS[i].children[j].textContent) &&
-        event.key !== 'CapsLock' &&
-        !Object.values(specialKeysStorage).some(
-          (elem) => KEYS_ENG[i].parentElement === elem
+        (event.key === KEYS_ENG[i].children[j].textContent
+          || event.key === KEYS_RUS[i].children[j].textContent)
+        && event.key !== 'CapsLock'
+        && !Object.values(specialKeysStorage).some(
+          (elem) => KEYS_ENG[i].parentElement === elem,
         )
       ) {
         KEYS_ENG[i].parentElement.classList.remove('active');
-        // console.log(KEYS_ENG[i].parentElement);
       }
     }
   }
 
   for (let i = 0; i < KEYS_RUS.length; i += 1) {
-    for (let j = 0; j < KEYS_RUS[i].children.length; j++) {
+    for (let j = 0; j < KEYS_RUS[i].children.length; j += 1) {
       if (
-        (event.key === KEYS_ENG[i].children[j].textContent ||
-          event.key === KEYS_RUS[i].children[j].textContent) &&
-        event.key !== 'CapsLock' &&
-        !Object.values(specialKeysStorage).some(
-          (elem) => KEYS_ENG[i].parentElement === elem
+        (event.key === KEYS_ENG[i].children[j].textContent
+          || event.key === KEYS_RUS[i].children[j].textContent)
+        && event.key !== 'CapsLock'
+        && !Object.values(specialKeysStorage).some(
+          (elem) => KEYS_ENG[i].parentElement === elem,
         )
       ) {
         KEYS_RUS[i].parentElement.classList.remove('active');
-        // console.log(KEYS_RUS[i].parentElement);
       }
     }
   }
-  // console.log(event);
 }
 
 document.addEventListener('keydown', pressedKey);
@@ -494,7 +470,7 @@ function mouseDown(event) {
     });
   }
 
-  //pair keys cases (Ctrl, Alt, Meta, Shift)
+  // pair keys cases (Ctrl, Alt, Meta, Shift)
   if (
     event.target.parentElement.parentElement.classList.contains('ControlLeft')
   ) {
@@ -546,7 +522,7 @@ function mouseDown(event) {
     });
   }
 
-  //Arrows keys cases
+  // Arrows keys cases
   if (eventDown.key === '◄') {
     eventDown = new KeyboardEvent('keydown', {
       key: 'ArrowLeft',
@@ -575,14 +551,14 @@ function mouseUp(event) {
     key: `${pressDownEvent}`,
   });
 
-  //Delete case
+  // Delete case
   if (eventUp.key === 'Del') {
     eventUp = new KeyboardEvent('keyup', {
       key: 'Delete',
     });
   }
 
-  //pair keys cases (Ctrl, Alt, Meta, Shift)
+  // pair keys cases (Ctrl, Alt, Meta, Shift)
   if (
     event.target.parentElement.parentElement.classList.contains('ControlLeft')
   ) {
@@ -632,7 +608,7 @@ function mouseUp(event) {
     });
   }
 
-  //Arrows keys cases
+  // Arrows keys cases
   if (eventUp.key === '◄') {
     eventUp = new KeyboardEvent('keyup', {
       key: 'ArrowLeft',
@@ -651,7 +627,11 @@ function mouseUp(event) {
     });
   }
 
-  TEXT_AREA.focus(); // there is bug(?), after using focus ShiftRight keyboardEvent always has location = 0 (according to specification it should be 2). For this reason I add in specialKeysStorage: 'Shift(0)': SHIFT_RIGHT,
+  TEXT_AREA.focus();
+  // there is bug(?) with TEXT_AREA.focus();
+  // after using focus ShiftRight keyboardEvent always has location = 0
+  // (according to specification it should be 2).
+  // For this reason I add in specialKeysStorage: 'Shift(0)': SHIFT_RIGHT,
   document.dispatchEvent(eventUp);
   // console.log(event.target.parentElement.parentElement.classList);
   // console.log(eventUp);
@@ -662,7 +642,7 @@ document.addEventListener('mouseup', mouseUp);
 
 /* suppress all JavaScript runtime error */
 
-window.onerror = function (message, url, lineNumber) {
+window.onerror = function stopError(/* message, url, lineNumber */) {
   // console.log('test');
   return true; // prevents browser error messages
 };
