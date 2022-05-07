@@ -12,6 +12,11 @@ document.addEventListener('keydown', defaultActions);
 
 /* variables */
 // elements
+const CENTRALIZER = document.querySelector('.centralizer');
+const KEYBOARD = document.querySelector('#keyboard');
+const LANGUAGE_MSG = document.querySelector('.language');
+const DESCRIPTION = document.querySelector('.description');
+const TITLE = document.querySelector('.title');
 const TEXT_AREA = document.querySelector('#textarea');
 const KEYS_RUS = document.querySelectorAll('.rus');
 const KEYS_ENG = document.querySelectorAll('.eng');
@@ -71,6 +76,8 @@ let languageFlag = Number(
 let capsLockFlag = 0; //
 // Shift flag (0 — turn off, 1- turn on)
 let shiftFlag = 0; //
+// Audio object
+const audioObj = new Audio('./assets/sound.mp3');
 
 /* CapsLock Check */
 
@@ -235,15 +242,14 @@ document.addEventListener('keydown', switchLanguage);
 /* visualization pressed keys + typing keys */
 
 function pressedKey(event) {
+  audioObj.play();
   // special cases
   const keyID = `${event.key}(${event.location})`;
   // console.log(keyID);
   for (let i = 0; i < Object.keys(specialKeysStorage).length; i += 1) {
     if (keyID === Object.keys(specialKeysStorage)[i]) {
       // visualization
-      specialKeysStorage[Object.keys(specialKeysStorage)[i]].classList.add(
-        'active',
-      );
+      specialKeysStorage[Object.keys(specialKeysStorage)[i]].classList.add('active');
     }
   }
 
@@ -468,6 +474,13 @@ document.addEventListener('keyup', unPressedKey);
 let pressDownEvent; // save event.target.textContent on dawn
 
 function mouseDown(event) {
+  // console.log(event.target);
+  if (event.target === CENTRALIZER || event.target === KEYBOARD
+     || event.target === LANGUAGE_MSG || event.target === DESCRIPTION
+     || event.target === TEXT_AREA || event.target === TITLE) {
+    return true;
+  }
+
   let eventDown = new KeyboardEvent('keydown', {
     key: `${event.target.textContent}`,
   });
@@ -552,8 +565,10 @@ function mouseDown(event) {
   }
 
   document.dispatchEvent(eventDown);
+
   // console.log(event.target.parentElement.parentElement.classList);
   // console.log(eventDown);
+  return true;
 }
 
 function mouseUp(event) {
