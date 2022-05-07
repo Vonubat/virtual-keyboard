@@ -70,7 +70,7 @@ const arrowsStorage = {
 };
 // language flag (1 — eng, 0 — rus)
 let languageFlag = Number(
-  sessionStorage.length === 1 ? 1 : sessionStorage.getItem('languageFlag'),
+  sessionStorage.getItem('languageFlag') ? sessionStorage.getItem('languageFlag') : 1,
 );
 // CapsLock flag (0 — turn off, 1- turn on)
 let capsLockFlag = 0; //
