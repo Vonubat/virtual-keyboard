@@ -65,7 +65,7 @@ const arrowsStorage = {
 };
 // language flag (1 — eng, 0 — rus)
 let languageFlag = Number(
-  sessionStorage.length === 1 ? 1 : sessionStorage.getItem('languageFlag'),
+  sessionStorage.length === 1 ? 1 : sessionStorage.getItem('languageFlag')
 );
 // CapsLock flag (0 — turn off, 1- turn on)
 let capsLockFlag = 0; //
@@ -140,8 +140,8 @@ function shiftCheckDown(event) {
 function shiftCheckUp(event) {
   // check double Shift
   if (
-    SHIFT_LEFT.classList.contains('active')
-    && SHIFT_RIGHT.classList.contains('active')
+    SHIFT_LEFT.classList.contains('active') &&
+    SHIFT_RIGHT.classList.contains('active')
   ) {
     SHIFT_LEFT.classList.remove('active');
     SHIFT_RIGHT.classList.remove('active');
@@ -202,8 +202,8 @@ function switchLanguage() {
   }
 
   if (
-    keysPressedStorage.has('Control(1)')
-    && keysPressedStorage.has('Alt(1)')
+    keysPressedStorage.has('Control(1)') &&
+    keysPressedStorage.has('Alt(1)')
   ) {
     if (languageFlag === 1) {
       sessionStorage.setItem('languageFlag', 0);
@@ -241,16 +241,19 @@ function pressedKey(event) {
   for (let i = 0; i < Object.keys(specialKeysStorage).length; i += 1) {
     if (keyID === Object.keys(specialKeysStorage)[i]) {
       // visualization
-      specialKeysStorage[Object.keys(specialKeysStorage)[i]].classList.add('active');
+      specialKeysStorage[Object.keys(specialKeysStorage)[i]].classList.add(
+        'active'
+      );
     }
   }
 
   if (keyID === 'Tab(0)') {
     // Tab realization
     const cursorPosition = TEXT_AREA.selectionStart;
-    TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
-    }    ${
-      TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
+    TEXT_AREA.value = `${TEXT_AREA.value.slice(
+      0,
+      TEXT_AREA.selectionStart
+    )}    ${TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
     TEXT_AREA.selectionStart = cursorPosition + 4;
     TEXT_AREA.selectionEnd = cursorPosition + 4;
   }
@@ -259,8 +262,9 @@ function pressedKey(event) {
     // Backspace realization
     const cursorPosition = TEXT_AREA.selectionStart;
     if (cursorPosition !== 0) {
-      TEXT_AREA.value = TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart - 1)
-      + TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+      TEXT_AREA.value =
+        TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart - 1) +
+        TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
     }
 
     if (TEXT_AREA.selectionStart === 0 && TEXT_AREA.selectionEnd === 0) {
@@ -276,8 +280,9 @@ function pressedKey(event) {
     // Delete realization
     const cursorPosition = TEXT_AREA.selectionStart;
 
-    TEXT_AREA.value = TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
-      + TEXT_AREA.value.slice(TEXT_AREA.selectionStart + 1);
+    TEXT_AREA.value =
+      TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+      TEXT_AREA.value.slice(TEXT_AREA.selectionStart + 1);
 
     TEXT_AREA.selectionStart = cursorPosition;
     TEXT_AREA.selectionEnd = cursorPosition;
@@ -287,20 +292,27 @@ function pressedKey(event) {
     // Enter realization
     const cursorPosition = TEXT_AREA.selectionStart;
 
-    TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
-    }\n${
-      TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
+    TEXT_AREA.value = `${TEXT_AREA.value.slice(
+      0,
+      TEXT_AREA.selectionStart
+    )}\n${TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
 
-    TEXT_AREA.selectionStart = TEXT_AREA.value.indexOf('\n', cursorPosition) + 1;
+    TEXT_AREA.selectionStart =
+      TEXT_AREA.value.indexOf('\n', cursorPosition) + 1;
     TEXT_AREA.selectionEnd = TEXT_AREA.value.indexOf('\n', cursorPosition) + 1;
   }
 
   // Arrows realization
-  if (keyID === 'ArrowUp(0)' || keyID === 'ArrowDown(0)' || keyID === 'ArrowLeft(0))' || keyID === 'ArrowRight(0)') {
+  if (
+    keyID === 'ArrowUp(0)' ||
+    keyID === 'ArrowDown(0)' ||
+    keyID === 'ArrowLeft(0))' ||
+    keyID === 'ArrowRight(0)'
+  ) {
     const cursorPosition = TEXT_AREA.selectionStart;
-    TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
-    }${arrowsStorage[keyID]}${
-      TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
+    TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)}${
+      arrowsStorage[keyID]
+    }${TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
     TEXT_AREA.selectionStart = cursorPosition + 1;
     TEXT_AREA.selectionEnd = cursorPosition + 1;
   }
@@ -309,16 +321,32 @@ function pressedKey(event) {
   function keyFlag(currentEvent) {
     // check status of Shift and CapsLock
     let key;
-    if (capsLockFlag === 1 && shiftFlag === 0 && currentEvent.key !== 'CapsLock') {
+    if (
+      capsLockFlag === 1 &&
+      shiftFlag === 0 &&
+      currentEvent.key !== 'CapsLock'
+    ) {
       key = currentEvent.key.toUpperCase();
     }
-    if (capsLockFlag === 0 && shiftFlag === 0 && currentEvent.key !== 'CapsLock') {
+    if (
+      capsLockFlag === 0 &&
+      shiftFlag === 0 &&
+      currentEvent.key !== 'CapsLock'
+    ) {
       key = currentEvent.key.toLowerCase();
     }
-    if (capsLockFlag === 1 && shiftFlag === 1 && currentEvent.key !== 'CapsLock') {
+    if (
+      capsLockFlag === 1 &&
+      shiftFlag === 1 &&
+      currentEvent.key !== 'CapsLock'
+    ) {
       key = currentEvent.key.toLowerCase();
     }
-    if (capsLockFlag === 0 && shiftFlag === 1 && currentEvent.key !== 'CapsLock') {
+    if (
+      capsLockFlag === 0 &&
+      shiftFlag === 1 &&
+      currentEvent.key !== 'CapsLock'
+    ) {
       key = currentEvent.key.toUpperCase();
     }
     return key;
@@ -328,35 +356,26 @@ function pressedKey(event) {
     for (let i = 0; i < KEYS_ENG.length; i += 1) {
       for (let j = 0; j < KEYS_ENG[i].children.length; j += 1) {
         if (
-          (inputKey === KEYS_ENG[i].children[j].textContent
-            || inputKey === KEYS_RUS[i].children[j].textContent)
-          && !inputKey === KEYS_ENG[i].children[j].classList.contains('hidden')
-
-          && !Object.values(specialKeysStorage).some(
-            (elem) => KEYS_ENG[i].parentElement === elem,
+          (inputKey === KEYS_ENG[i].children[j].textContent ||
+            inputKey === KEYS_RUS[i].children[j].textContent) &&
+          !inputKey === KEYS_ENG[i].children[j].classList.contains('hidden') &&
+          !Object.values(specialKeysStorage).some(
+            (elem) => KEYS_ENG[i].parentElement === elem
           )
         ) {
           KEYS_ENG[i].parentElement.classList.add('active'); // visualization
 
           if (!KEYS_ENG[i].classList.contains('hidden')) {
-            // typing
-            if (inputKey === '.' || inputKey === '`') {
-              // tricky case
-              const cursorPosition = TEXT_AREA.selectionStart;
-              TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
-              }${inputKey}${
-                TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
-              TEXT_AREA.selectionStart = cursorPosition + 1;
-              TEXT_AREA.selectionEnd = cursorPosition + 1;
-              return true;
-            }
+            // typing;
 
             const cursorPosition = TEXT_AREA.selectionStart;
-            TEXT_AREA.value = TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
-                + KEYS_ENG[i].children[j].textContent
-                + TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.value =
+              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+              KEYS_ENG[i].children[j].textContent +
+              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
             TEXT_AREA.selectionStart = cursorPosition + 1;
             TEXT_AREA.selectionEnd = cursorPosition + 1;
+            return true;
           }
         }
       }
@@ -369,34 +388,25 @@ function pressedKey(event) {
     for (let i = 0; i < KEYS_RUS.length; i += 1) {
       for (let j = 0; j < KEYS_RUS[i].children.length; j += 1) {
         if (
-          (inputKey === KEYS_ENG[i].children[j].textContent
-            || inputKey === KEYS_RUS[i].children[j].textContent)
-          && !inputKey === KEYS_RUS[i].children[j].classList.contains('hidden')
-          && !Object.values(specialKeysStorage).some(
-            (elem) => KEYS_ENG[i].parentElement === elem,
+          (inputKey === KEYS_RUS[i].children[j].textContent ||
+            inputKey === KEYS_ENG[i].children[j].textContent) &&
+          !inputKey === KEYS_RUS[i].children[j].classList.contains('hidden') &&
+          !Object.values(specialKeysStorage).some(
+            (elem) => KEYS_ENG[i].parentElement === elem
           )
         ) {
           KEYS_RUS[i].parentElement.classList.add('active'); // visualization
 
           if (!KEYS_RUS[i].classList.contains('hidden')) {
             // typing
-
-            if (inputKey === '.' || inputKey === '`') {
-              // tricky case
-              const cursorPosition = TEXT_AREA.selectionStart;
-              TEXT_AREA.value = `${TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
-              }${inputKey}${
-                TEXT_AREA.value.slice(TEXT_AREA.selectionStart)}`;
-              TEXT_AREA.selectionStart = cursorPosition + 1;
-              TEXT_AREA.selectionEnd = cursorPosition + 1;
-              return true;
-            }
             const cursorPosition = TEXT_AREA.selectionStart;
-            TEXT_AREA.value = TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart)
-                + KEYS_RUS[i].children[j].textContent
-                + TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
+            TEXT_AREA.value =
+              TEXT_AREA.value.slice(0, TEXT_AREA.selectionStart) +
+              KEYS_RUS[i].children[j].textContent +
+              TEXT_AREA.value.slice(TEXT_AREA.selectionStart);
             TEXT_AREA.selectionStart = cursorPosition + 1;
             TEXT_AREA.selectionEnd = cursorPosition + 1;
+            return true;
           }
         }
       }
@@ -404,8 +414,12 @@ function pressedKey(event) {
     return true;
   }
 
-  keysEng(keyFlag(event));
-  keysRus(keyFlag(event));
+  if (languageFlag === 1) {
+    keysEng(keyFlag(event));
+  } else keysRus(keyFlag(event));
+
+  console.log(event);
+  console.log(languageFlag);
 }
 
 function unPressedKey(event) {
@@ -414,7 +428,9 @@ function unPressedKey(event) {
   for (let i = 0; i < Object.keys(specialKeysStorage).length; i += 1) {
     if (keyID === Object.keys(specialKeysStorage)[i]) {
       // visualization
-      specialKeysStorage[Object.keys(specialKeysStorage)[i]].classList.remove('active');
+      specialKeysStorage[Object.keys(specialKeysStorage)[i]].classList.remove(
+        'active'
+      );
     }
   }
 
@@ -422,11 +438,11 @@ function unPressedKey(event) {
   for (let i = 0; i < KEYS_ENG.length; i += 1) {
     for (let j = 0; j < KEYS_ENG[i].children.length; j += 1) {
       if (
-        (event.key === KEYS_ENG[i].children[j].textContent
-          || event.key === KEYS_RUS[i].children[j].textContent)
-        && event.key !== 'CapsLock'
-        && !Object.values(specialKeysStorage).some(
-          (elem) => KEYS_ENG[i].parentElement === elem,
+        (event.key === KEYS_ENG[i].children[j].textContent ||
+          event.key === KEYS_RUS[i].children[j].textContent) &&
+        event.key !== 'CapsLock' &&
+        !Object.values(specialKeysStorage).some(
+          (elem) => KEYS_ENG[i].parentElement === elem
         )
       ) {
         KEYS_ENG[i].parentElement.classList.remove('active');
@@ -437,11 +453,11 @@ function unPressedKey(event) {
   for (let i = 0; i < KEYS_RUS.length; i += 1) {
     for (let j = 0; j < KEYS_RUS[i].children.length; j += 1) {
       if (
-        (event.key === KEYS_ENG[i].children[j].textContent
-          || event.key === KEYS_RUS[i].children[j].textContent)
-        && event.key !== 'CapsLock'
-        && !Object.values(specialKeysStorage).some(
-          (elem) => KEYS_ENG[i].parentElement === elem,
+        (event.key === KEYS_ENG[i].children[j].textContent ||
+          event.key === KEYS_RUS[i].children[j].textContent) &&
+        event.key !== 'CapsLock' &&
+        !Object.values(specialKeysStorage).some(
+          (elem) => KEYS_ENG[i].parentElement === elem
         )
       ) {
         KEYS_RUS[i].parentElement.classList.remove('active');

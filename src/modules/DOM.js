@@ -364,14 +364,14 @@ const DOM = `<div class="centralizer">
     </div>
     <div class="keyboard--key key Backslash">
       <span class="rus hidden"
-        ><span class="caseDown">\`</span
+        ><span class="caseDown">\\</span
         ><span class="caseUp hidden">/</span
-        ><span class="caps hidden">\`</span
+        ><span class="caps hidden">\\</span
         ><span class="shiftCaps hidden">/</span></span
       ><span class="eng"
-        ><span class="caseDown">\`</span
+        ><span class="caseDown">\\</span
         ><span class="caseUp hidden">|</span
-        ><span class="caps hidden">\`</span
+        ><span class="caps hidden">\\</span
         ><span class="shiftCaps hidden">|</span></span
       >
     </div>
