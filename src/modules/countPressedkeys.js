@@ -1,4 +1,4 @@
-let keysPressedStorage = new Set();
+const keysPressedStorage = new Set();
 
 /* count pressed keys */
 
