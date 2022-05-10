@@ -1,10 +1,150 @@
-import DOM from './modules/DOM.js';
+import constants from './modules/DOM.js';
 import keysPressedStorage from './modules/countPressedkeys.js';
 import defaultActions from './modules/disableDefaultAction.js';
 
 /* DOM generator */
 
-document.body.insertAdjacentHTML('beforeend', DOM);
+const {
+  lowerEnglishArr,
+  upperEnglishArr,
+  capsEnglishArr,
+  shiftCapsEnglishArr,
+  lowerRussianArr,
+  upperRussianArr,
+  capsRussianArr,
+  shiftCapsRussianArr,
+} = constants;
+
+const centralizer = document.createElement('div');
+const title = document.createElement('p');
+const textArea = document.createElement('textarea');
+const keyboard = document.createElement('div');
+const description = document.createElement('p');
+const language = document.createElement('p');
+
+// set common attributes
+centralizer.classList.add('centralizer');
+title.classList.add('title');
+textArea.classList.add('body-textarea', 'textarea');
+textArea.id = 'textarea';
+keyboard.id = 'keyboard';
+textArea.rows = 50;
+textArea.cols = 5;
+textArea.setAttribute('autofocus', '');
+keyboard.classList.add('body-keyboard', 'keyboard');
+description.classList.add('description');
+language.classList.add('language');
+
+// create rows
+const row1 = document.createElement('div');
+const row2 = document.createElement('div');
+const row3 = document.createElement('div');
+const row4 = document.createElement('div');
+const row5 = document.createElement('div');
+
+// set common attributes to rows
+row1.classList.add('keyboard-row', 'row', 'row1');
+row2.classList.add('keyboard-row', 'row', 'row2');
+row3.classList.add('keyboard-row', 'row', 'row3');
+row4.classList.add('keyboard-row', 'row', 'row4');
+row5.classList.add('keyboard-row', 'row', 'row5');
+
+// add to document created structure
+document.body.append(centralizer);
+centralizer.append(title, textArea, keyboard, description, language);
+title.textContent = 'Virtual Keyboard';
+keyboard.append(row1, row2, row3, row4, row5);
+description.innerText = 'The keyboard was created in Windows operating system';
+language.innerText = 'Combination to switching language : Ctrl + Alt';
+
+// creating keys
+function addKeys(keysInRows, whichRow, whichArr) {
+  for (let i = 0; i < keysInRows; i += 1) {
+    const key = document.createElement('div');
+    key.classList.add('keyboard-key', 'key');
+
+    // eng combination (wrapper)
+    const keyEng = document.createElement('span');
+    keyEng.classList.add('eng');
+
+    // eng_caseDown
+    const caseDown = document.createElement('span');
+    caseDown.classList.add('caseDown');
+    caseDown.textContent = lowerEnglishArr[whichArr][i];
+
+    // eng_caseUp
+    const caseUp = document.createElement('span');
+    caseUp.classList.add('caseUp', 'hidden');
+    caseUp.textContent = upperEnglishArr[whichArr][i];
+
+    // eng_caps
+    const caps = document.createElement('span');
+    caps.classList.add('caps', 'hidden');
+    caps.textContent = capsEnglishArr[whichArr][i];
+
+    // eng_shiftCaps
+    const shiftCaps = document.createElement('span');
+    shiftCaps.classList.add('shiftCaps', 'hidden');
+    shiftCaps.textContent = shiftCapsEnglishArr[whichArr][i];
+
+    // rus combination (wrapper)
+    const keyRus = document.createElement('span');
+    keyRus.classList.add('rus');
+
+    // rus_caseDown
+    const caseRusDown = document.createElement('span');
+    caseRusDown.classList.add('caseDown');
+    caseRusDown.textContent = lowerRussianArr[whichArr][i];
+
+    // rus_caseUp
+    const caseRusUp = document.createElement('span');
+    caseRusUp.classList.add('caseUp', 'hidden');
+    caseRusUp.textContent = upperRussianArr[whichArr][i];
+
+    // rus_caps
+    const capsRus = document.createElement('span');
+    capsRus.classList.add('caps', 'hidden');
+    capsRus.textContent = capsRussianArr[whichArr][i];
+
+    // rus_shiftCaps
+    const ShiftCapsRus = document.createElement('span');
+    ShiftCapsRus.classList.add('shiftCaps', 'hidden');
+    ShiftCapsRus.textContent = shiftCapsRussianArr[whichArr][i];
+
+    keyEng.append(caseDown, caseUp, caps, shiftCaps);
+
+    keyRus.append(caseRusDown, caseRusUp, capsRus, ShiftCapsRus);
+
+    key.append(keyEng, keyRus);
+    whichRow.append(key);
+  }
+}
+
+addKeys(14, row1, 0);
+addKeys(15, row2, 1);
+addKeys(13, row3, 2);
+addKeys(13, row4, 3);
+addKeys(9, row5, 4);
+
+// set special attributes
+
+document.querySelector('#keyboard > div.keyboard-row.row.row3 > div:nth-child(1)').classList.add('CapsLock');
+document.querySelector('#keyboard > div.keyboard-row.row.row2 > div:nth-child(1)').classList.add('Tab');
+document.querySelector('#keyboard > div.keyboard-row.row.row3 > div:nth-child(13)').classList.add('Enter');
+document.querySelector('#keyboard > div.keyboard-row.row.row2 > div:nth-child(15)').classList.add('Delete');
+document.querySelector('#keyboard > div.keyboard-row.row.row1 > div:nth-child(14)').classList.add('Backspace');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(1)').classList.add('ControlLeft');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(9)').classList.add('ControlRight');
+document.querySelector('#keyboard > div.keyboard-row.row.row4 > div:nth-child(1)').classList.add('ShiftLeft');
+document.querySelector('#keyboard > div.keyboard-row.row.row4 > div:nth-child(13)').classList.add('ShiftRight');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(2)').classList.add('MetaLeft');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(3)').classList.add('AltLeft');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(5)').classList.add('AltRight');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(6)').classList.add('ArrowLeft');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(8)').classList.add('ArrowRight');
+document.querySelector('#keyboard > div.keyboard-row.row.row4 > div:nth-child(12)').classList.add('ArrowUp');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(7)').classList.add('ArrowDown');
+document.querySelector('#keyboard > div.keyboard-row.row.row5 > div:nth-child(4)').classList.add('Space');
 
 /* disable default action */
 
@@ -309,7 +449,7 @@ function pressedKey(event) {
   if (
     keyID === 'ArrowUp(0)'
     || keyID === 'ArrowDown(0)'
-    || keyID === 'ArrowLeft(0))'
+    || keyID === 'ArrowLeft(0)'
     || keyID === 'ArrowRight(0)'
   ) {
     const cursorPosition = TEXT_AREA.selectionStart;
